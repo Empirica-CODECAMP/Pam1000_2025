@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance and Reinsurance Variables</title>
+    <style>
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #a0972e;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #8b7e29;
+        }
+
+        .add-row-btn {
+            margin-top: 10px;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Insurance and Reinsurance Variables</h1>
+
+    <!-- Toggle Buttons to switch between Insurance and Reinsurance forms -->
+    <div>
+        <button onclick="showTable('insurance')">Insurance Variables</button>
+        <button onclick="showTable('reinsurance')">Reinsurance Variables</button>
+    </div>
+
+    <!-- Insurance Table Form -->
+    <div id="insurance" style="display: none;">
+        <h2>Insurance Variables</h2>
+
+        <!-- Display insurance form errors -->
+        {% if insurance_form.errors %}
+            <div class="error">
+                <ul>
+                    {% for field, errors in insurance_form.errors.items %}
+                        <li>{{ field }}: {{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form id="insuranceForm" method="POST" action="{% url 'variables' %}">
+            {% csrf_token %}
+            <table id="insuranceTable">
+                <thead>
+                    <tr>
+                        <th>Premiums</th>
+                        <th>Claims</th>
+                        <th>Admin</th>
+                        <th>Acq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for variable in insurance_variables %}
+                    <tr>
+                        <td><input type="text" name="premiums[]" value="{{ variable.premium }}"></td>
+                        <td><input type="text" name="claims[]" value="{{ variable.claims }}"></td>
+                        <td><input type="text" name="admin[]" value="{{ variable.admin }}"></td>
+                        <td><input type="text" name="acq[]" value="{{ variable.acquisition }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="button" class="add-row-btn" onclick="addRow('insuranceTable')">Add Row</button>
+            <button type="submit" class="submit-btn">Submit Insurance Variables</button>
+        </form>
+    </div>
+
+    <!-- Reinsurance Table Form -->
+    <div id="reinsurance" style="display: none;">
+        <h2>Reinsurance Variables</h2>
+
+        <!-- Display reinsurance form errors -->
+        {% if reinsurance_form.errors %}
+            <div class="error">
+                <ul>
+                    {% for field, errors in reinsurance_form.errors.items %}
+                        <li>{{ field }}: {{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form id="reinsuranceForm" method="POST" action="{% url 'variables' %}">
+            {% csrf_token %}
+            <table id="reinsuranceTable">
+                <thead>
+                    <tr>
+                        <th>Premiums</th>
+                        <th>Claims</th>
+                        <th>Admin</th>
+                        <th>Acq</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for variable in reinsurance_variables %}
+                    <tr>
+                        <td><input type="text" name="premiums[]" value="{{ variable.premium }}"></td>
+                        <td><input type="text" name="claims[]" value="{{ variable.claims }}"></td>
+                        <td><input type="text" name="admin[]" value="{{ variable.admin }}"></td>
+                        <td><input type="text" name="acq[]" value="{{ variable.acquisition }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="button" class="add-row-btn" onclick="addRow('reinsuranceTable')">Add Row</button>
+            <button type="submit" class="submit-btn">Submit Reinsurance Variables</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to show/hide tables
+        function showTable(tableId) {
+            document.getElementById('insurance').style.display = tableId === 'insurance' ? 'block' : 'none';
+            document.getElementById('reinsurance').style.display = tableId === 'reinsurance' ? 'block' : 'none';
+        }
+
+        // Function to add a new row to the table
+        function addRow(tableId) {
+            const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            
+            // Define the structure of new row inputs
+            const columns = ['premium', 'claims', 'admin', 'acquisition'];
+            columns.forEach(column => {
+                const newCell = newRow.insertCell();
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = column + '[]'; // Name should be an array
+                newCell.appendChild(input);
+            });
+        }
+    </script>
+</body>
+
+</html>

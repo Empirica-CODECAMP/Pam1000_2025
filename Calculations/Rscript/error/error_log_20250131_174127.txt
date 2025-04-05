@@ -1,0 +1,469 @@
+===== Subprocess Error =====
+Command: ['Rscript', 'D:\\Nkalolang\\Documents\\GitHub\\actuaries\\Pam_gmm\\Calculations\\Rscript\\IFRS17model_Portfolio.R', '2017', '2017', '2017']
+Return Code: 1
+=== STDERR ===
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: 'rlang'
+
+The following objects are masked from 'package:jsonlite':
+
+    flatten, unbox
+
+
+Attaching package: 'data.table'
+
+The following object is masked from 'package:rlang':
+
+    :=
+
+The following objects are masked from 'package:dplyr':
+
+    between, first, last
+
+
+Attaching package: 'lubridate'
+
+The following objects are masked from 'package:data.table':
+
+    hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    yday, year
+
+The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union
+
+
+Attaching package: 'reshape'
+
+The following object is masked from 'package:lubridate':
+
+    stamp
+
+The following object is masked from 'package:data.table':
+
+    melt
+
+The following object is masked from 'package:dplyr':
+
+    rename
+
+Loading required package: xts
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:data.table':
+
+    yearmon, yearqtr
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+
+######################### Warning from 'xts' package ##########################
+#                                                                             #
+# The dplyr lag() function breaks how base R's lag() function is supposed to  #
+# work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #
+# source() into this session won't work correctly.                            #
+#                                                                             #
+# Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #
+# conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #
+# dplyr from breaking base R's lag() function.                                #
+#                                                                             #
+# Code in packages is not affected. It's protected by R's namespace mechanism #
+# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #
+#                                                                             #
+###############################################################################
+
+Attaching package: 'xts'
+
+The following objects are masked from 'package:data.table':
+
+    first, last
+
+The following objects are masked from 'package:dplyr':
+
+    first, last
+
+Loading required package: TTR
+Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo 
+Loading required package: bit
+
+Attaching package: 'bit'
+
+The following object is masked from 'package:data.table':
+
+    setattr
+
+The following object is masked from 'package:dplyr':
+
+    symdiff
+
+The following object is masked from 'package:base':
+
+    xor
+
+Attaching package bit64
+package:bit64 (c) 2011-2017 Jens Oehlschlaegel
+creators: integer64 runif64 seq :
+coercion: as.integer64 as.vector as.logical as.integer as.double as.character as.bitstring
+logical operator: ! & | xor != == < <= >= >
+arithmetic operator: + - * / %/% %% ^
+math: sign abs sqrt log log2 log10
+math: floor ceiling trunc round
+querying: is.integer64 is.vector [is.atomic} [length] format print str
+values: is.na is.nan is.finite is.infinite
+aggregation: any all min max range sum prod
+cumulation: diff cummin cummax cumsum cumprod
+access: length<- [ [<- [[ [[<-
+combine: c rep cbind rbind as.data.frame
+WARNING don't use as subscripts
+WARNING semantics differ from integer
+for more help type ?bit64
+
+Attaching package: 'bit64'
+
+The following object is masked from 'package:utils':
+
+    hashtab
+
+The following objects are masked from 'package:base':
+
+    %in%, :, colSums, is.double, match, order, rank, rowSums
+
+here() starts at D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm
+Failed to read a valid value, setting Stress to 'Base'.
+Warning message:
+In as.integer(sub("^([0-9]{4}) .*", "\\1", sheet_names)) :
+  NAs introduced by coercion
+New names:
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...2`
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...8`
+New names:
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...2`
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...8`
+New names:
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...2`
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...8`
+Warning messages:
+1: In as.integer(sub("^([0-9]{4}) .*", "\\1", sheet_names)) :
+  NAs introduced by coercion
+2: In as.integer(sub("^([0-9]{4}) .*", "\\1", sheet_names)) :
+  NAs introduced by coercion
+New names:
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...2`
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...8`
+New names:
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...2`
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...8`
+New names:
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...2`
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...8`
+New names:
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...2`
+• `REINS_PREM_TREATY_OUT(1)` -> `REINS_PREM_TREATY_OUT(1)...8`
+Warning message:
+In year_sheet_names & (year_numbers_as_int <= valuation_year) :
+  longer object length is not a multiple of shorter object length
+Error in fread(files[i]) : 
+  input= must be a single character string containing a file name, a system command containing at least one space, a URL starting 'http[s]://', 'ftp[s]://' or 'file://', or, the input data itself containing at least one \n or \r
+Calls: GrossCSM -> fread -> stopf -> raise_condition -> signal
+Execution halted
+
+=== STDOUT ===
+[1] FALSE
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript"
+[1] 2017
+[1] 2017
+[1] 2017
+[1] "Base"
+[1] "Selected Portfolio: BLL Base"
+[1] "Sorting User Input files 2025-01-31 17:40:43.012382"
+Processing file: 2017 IF ins no link.xlsx 
+ - This is an IF file
+ - This is an INSURANCE file
+Moving 2017 IF ins no link.xlsx to D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Insurance/2017 
+Processing file: 2017 IF Reinsurance no link.xlsx 
+ - This is an IF file
+ - This is a REINSURANCE file
+Moving 2017 IF Reinsurance no link.xlsx to D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Reinsurance/2017 
+Processing file: 2017 NB+Reinst ins no link.xlsx 
+ - This is a NB file
+ - This is a REINSURANCE file
+Moving 2017 NB+Reinst ins no link.xlsx to D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/NB/Reinsurance/2017 
+Processing file: 2017 NB+Reinst Reinsurance no link.xlsx 
+ - This is a NB file
+ - This is a REINSURANCE file
+Moving 2017 NB+Reinst Reinsurance no link.xlsx to D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/NB/Reinsurance/2017 
+Files sorted successfully.
+[1] "Run 2017 Declaration of global variables 2025-01-31 17:40:43.358943"
+   id PrevRun_Nr NBRun_Nr Run_Nr      Run_Description
+1   1       2017     2017   2017 IFRS 17 calculations
+2   2       2017     2018   2018 IFRS 17 calculations
+3   3       2018     2019   2019 IFRS 17 calculations
+4   4       2019     2020   2020 IFRS 17 calculations
+5   5       2020     2021   2021 IFRS 17 calculations
+6   6       2021     2022   2022 IFRS 17 calculations
+7   7       2022     2023   2023 IFRS 17 calculations
+8   8       2023   202309 202309 IFRS 17 calculations
+9   9       2023     2024   2024 IFRS 17 calculations
+10 10       2024     2025   2025 IFRS 17 calculations
+11 11       2025     2026   2026 IFRS 17 calculations
+12 12       2026     2027   2027 IFRS 17 calculations
+13 13       2027     2028   2028 IFRS 17 calculations
+   ForwardInterestRatesName_IFstart ForwardInterestRatesName_IFend
+1                     Forw_2017.csv                  Forw_2017.csv
+2                     Forw_2018.csv                  Forw_2018.csv
+3                     Forw_2019.csv                  Forw_2019.csv
+4                     Forw_2020.csv                  Forw_2020.csv
+5                     Forw_2021.csv                  Forw_2021.csv
+6                     Forw_2022.csv                  Forw_2022.csv
+7                     Forw_2023.csv                  Forw_2023.csv
+8                     Forw_2023.csv                  Forw_2023.csv
+9                     Forw_2023.csv                  Forw_2023.csv
+10                    Forw_2023.csv                  Forw_2023.csv
+11                    Forw_2023.csv                  Forw_2023.csv
+12                    Forw_2023.csv                  Forw_2023.csv
+13                    Forw_2023.csv                  Forw_2023.csv
+   ForwardInterestRatesName_NB EconomicAssumptionsName    RiskAdj
+1                Forw_2017.csv            Economic.csv Percentage
+2                Forw_2017.csv            Economic.csv Percentage
+3                Forw_2018.csv            Economic.csv Percentage
+4                Forw_2019.csv            Economic.csv Percentage
+5                Forw_2020.csv            Economic.csv Percentage
+6                Forw_2021.csv            Economic.csv Percentage
+7                Forw_2022.csv            Economic.csv Percentage
+8                Forw_2022.csv            Economic.csv Percentage
+9                Forw_2023.csv            Economic.csv Percentage
+10               Forw_2023.csv            Economic.csv Percentage
+11               Forw_2023.csv            Economic.csv Percentage
+12               Forw_2023.csv            Economic.csv Percentage
+13               Forw_2023.csv            Economic.csv Percentage
+   RiskAdjustmentFac IncurredAcqCotsPeriod
+1               0.06                     4
+2               0.06                    12
+3               0.06                    12
+4               0.06                    12
+5               0.06                    12
+6               0.06                    12
+7               0.06                    12
+8               0.06                    12
+9               0.06                    13
+10              0.06                    14
+11              0.06                    15
+12              0.06                    16
+13              0.06                    17
+All files in specified subfolders and folders have been deleted.
+[1] "Run 2017 Preparation of yield curves data 2025-01-31 17:40:43.456117"
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2017.csv"
+'data.frame':	362 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  0 1 2 3 4 5 6 7 8 9 ...
+ $ V3: num  7.48 7.65 7.21 7.28 7.47 ...
+ $ V4: num  2.53 2.52 2.52 2.53 2.53 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2018.csv"
+'data.frame':	1207 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  0 1 2 3 4 5 6 7 8 9 ...
+ $ V3: num  6.76 6.86 6.96 6.85 6.8 ...
+ $ V4: num  2.19 2.19 2.18 2.22 2.24 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2019.csv"
+'data.frame':	1247 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  0 1 2 3 4 5 6 7 8 9 ...
+ $ V3: num  7.65 6.92 6.21 6.74 6.76 ...
+ $ V4: num  2.17 2.17 2.16 2.22 2.24 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2020.csv"
+'data.frame':	1801 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  0 1 2 3 4 5 6 7 8 9 ...
+ $ V3: num  4.6 4.26 3.92 4.28 4.34 ...
+ $ V4: num  1.71 1.71 1.71 1.91 2.02 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2021.csv"
+'data.frame':	1801 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  0 1 2 3 4 5 6 7 8 9 ...
+ $ V3: num  6.85 4.86 2.87 4.16 4.46 ...
+ $ V4: num  0.1 0.1 0.1 0.613 0.976 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2022.csv"
+'data.frame':	1801 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  0 1 2 3 4 5 6 7 8 9 ...
+ $ V3: num  5.25 6.6 7.98 7.38 7.4 ...
+ $ V4: num  -0.3993 -0.3994 -0.3995 -0.0778 0.1411 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2023.csv"
+'data.frame':	1799 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ V3: num  9.65 10.31 10.03 10.02 10.14 ...
+ $ V4: num  3.32 3.31 4.3 5.04 4.33 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2024.csv"
+'data.frame':	1799 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ V3: num  9.65 10.31 10.03 10.02 10.14 ...
+ $ V4: num  3.32 3.31 4.3 5.04 4.33 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2025.csv"
+'data.frame':	1799 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ V3: num  9.65 10.31 10.03 10.02 10.14 ...
+ $ V4: num  3.32 3.31 4.3 5.04 4.33 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2026.csv"
+'data.frame':	1799 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ V3: num  9.65 10.31 10.03 10.02 10.14 ...
+ $ V4: num  3.32 3.31 4.3 5.04 4.33 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2027.csv"
+'data.frame':	1799 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ V3: num  9.65 10.31 10.03 10.02 10.14 ...
+ $ V4: num  3.32 3.31 4.3 5.04 4.33 ...
+NULL
+[1] "D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Assumptions/TABLES/Curves/Base/Excel/Forw_2028.csv"
+'data.frame':	1799 obs. of  4 variables:
+ $ V1: chr  "*" "*" "*" "*" ...
+ $ V2: int  1 2 3 4 5 6 7 8 9 10 ...
+ $ V3: num  9.65 10.31 10.03 10.02 10.14 ...
+ $ V4: num  3.32 3.31 4.3 5.04 4.33 ...
+NULL
+[1] "Run 2017 Data conversion from Excel FCF to comma separated for NB 2025-01-31 17:40:44.222543"
+[1] "Run 2017 Data conversion from Excel FCF to comma separated for NB3 2025-01-31 17:40:44.226624"
+[1] "test"
+logical(0)
+Extraction and conversion completed.
+[1] "Run 2017 Data preparation for NB Gross Insurance cashflows completed 2025-01-31 17:40:44.316539"
+[1] "Run 2017 Data conversion from Excel FCF to comma separated for IF 2025-01-31 17:40:44.317097"
+Processing file: D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Insurance/2017/2017 IF ins no link.xlsx for year: 2017 
+logical(0)
+Saved 2017 ODD from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Insurance/2017/2017 IF ins no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/IF/Insurance/2017/2017_ODD_201.csv 
+Saved 2017 Onerous from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Insurance/2017/2017 IF ins no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/IF/Insurance/2017/2017_Onerous_201.csv 
+Saved 2017 Remaining from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Insurance/2017/2017 IF ins no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/IF/Insurance/2017/2017_Remaining_201.csv 
+Saved 2017 Non-onerous from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Insurance/2017/2017 IF ins no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/IF/Insurance/2017/2017_Non-onerous_201.csv 
+Extraction and conversion completed.
+[1] "Run 2017 Data preparation for IF Gross Insurance cashflows completed 2025-01-31 17:40:45.640906"
+[1] "Run 2017 Data conversion from Excel FCF to comma separated for NB 2025-01-31 17:40:45.642256"
+logical(0)
+Saved 2017 NB Onerous from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/NB/Reinsurance/2017/2017 NB+Reinst ins no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/NB/Reinsurance/2017/2017_NB_Onerous_201.csv 
+Saved 2017 NB Remaining from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/NB/Reinsurance/2017/2017 NB+Reinst ins no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/NB/Reinsurance/2017/2017_NB_Remaining_201.csv 
+Saved 2017 NB Non-onerous from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/NB/Reinsurance/2017/2017 NB+Reinst ins no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/NB/Reinsurance/2017/2017_NB_Non-onerous_201.csv 
+Saved 2017 NB Onerous from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/NB/Reinsurance/2017/2017 NB+Reinst Reinsurance no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/NB/Reinsurance/2017/2017_NB_Onerous_201.csv 
+Saved 2017 NB Remaining from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/NB/Reinsurance/2017/2017 NB+Reinst Reinsurance no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/NB/Reinsurance/2017/2017_NB_Remaining_201.csv 
+Saved 2017 NB Non-onerous from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/NB/Reinsurance/2017/2017 NB+Reinst Reinsurance no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/NB/Reinsurance/2017/2017_NB_Non-onerous_201.csv 
+Extraction and conversion completed.
+[1] "Run 2017 Reinsurance Data preparation for NB  Reinsurance cashflows completed 2025-01-31 17:40:48.612024"
+[1] "Run 2017 Reinsurance Data conversion from Excel FCF to comma separated for IF 2025-01-31 17:40:48.612718"
+Processing file: D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Reinsurance/2017/2017 IF Reinsurance no link.xlsx for year: 2017 
+logical(0)
+Saved 2017 ODD from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Reinsurance/2017/2017 IF Reinsurance no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/IF/Reinsurance/2017/2017_ODD_201.csv 
+Saved 2017 Onerous from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Reinsurance/2017/2017 IF Reinsurance no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/IF/Reinsurance/2017/2017_Onerous_201.csv 
+Saved 2017 Remaining from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Reinsurance/2017/2017 IF Reinsurance no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/IF/Reinsurance/2017/2017_Remaining_201.csv 
+Saved 2017 Non-onerous from D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/Excel/IF/Reinsurance/2017/2017 IF Reinsurance no link.xlsx as D:/Nkalolang/Documents/GitHub/actuaries/Pam_gmm/Calculations/Rscript/Inputs/Base/IF/Reinsurance/2017/2017_Non-onerous_201.csv 
+Extraction and conversion completed.
+[1] "Run 2017 Reinsurance Data preparation for IF Reinsurance cashflows completed 2025-01-31 17:40:50.808995"
+[1] "Run 2017 New business Start of CSM calculations 2025-01-31 17:41:25.912125"
+[1] "Run 2017 Beginning of PM10000 IFRS17 runs 2025-01-31 17:41:25.922975"
+   id PrevRun_Nr NBRun_Nr Run_Nr      Run_Description
+1   1       2017     2017   2017 IFRS 17 calculations
+2   2       2017     2018   2018 IFRS 17 calculations
+3   3       2018     2019   2019 IFRS 17 calculations
+4   4       2019     2020   2020 IFRS 17 calculations
+5   5       2020     2021   2021 IFRS 17 calculations
+6   6       2021     2022   2022 IFRS 17 calculations
+7   7       2022     2023   2023 IFRS 17 calculations
+8   8       2023   202309 202309 IFRS 17 calculations
+9   9       2023     2024   2024 IFRS 17 calculations
+10 10       2024     2025   2025 IFRS 17 calculations
+11 11       2025     2026   2026 IFRS 17 calculations
+12 12       2026     2027   2027 IFRS 17 calculations
+13 13       2027     2028   2028 IFRS 17 calculations
+   ForwardInterestRatesName_IFstart ForwardInterestRatesName_IFend
+1                     Forw_2017.csv                  Forw_2017.csv
+2                     Forw_2018.csv                  Forw_2018.csv
+3                     Forw_2019.csv                  Forw_2019.csv
+4                     Forw_2020.csv                  Forw_2020.csv
+5                     Forw_2021.csv                  Forw_2021.csv
+6                     Forw_2022.csv                  Forw_2022.csv
+7                     Forw_2023.csv                  Forw_2023.csv
+8                     Forw_2023.csv                  Forw_2023.csv
+9                     Forw_2023.csv                  Forw_2023.csv
+10                    Forw_2023.csv                  Forw_2023.csv
+11                    Forw_2023.csv                  Forw_2023.csv
+12                    Forw_2023.csv                  Forw_2023.csv
+13                    Forw_2023.csv                  Forw_2023.csv
+   ForwardInterestRatesName_NB EconomicAssumptionsName    RiskAdj
+1                Forw_2017.csv            Economic.csv Percentage
+2                Forw_2017.csv            Economic.csv Percentage
+3                Forw_2018.csv            Economic.csv Percentage
+4                Forw_2019.csv            Economic.csv Percentage
+5                Forw_2020.csv            Economic.csv Percentage
+6                Forw_2021.csv            Economic.csv Percentage
+7                Forw_2022.csv            Economic.csv Percentage
+8                Forw_2022.csv            Economic.csv Percentage
+9                Forw_2023.csv            Economic.csv Percentage
+10               Forw_2023.csv            Economic.csv Percentage
+11               Forw_2023.csv            Economic.csv Percentage
+12               Forw_2023.csv            Economic.csv Percentage
+13               Forw_2023.csv            Economic.csv Percentage
+   RiskAdjustmentFac IncurredAcqCotsPeriod
+1               0.06                     4
+2               0.06                    12
+3               0.06                    12
+4               0.06                    12
+5               0.06                    12
+6               0.06                    12
+7               0.06                    12
+8               0.06                    12
+9               0.06                    13
+10              0.06                    14
+11              0.06                    15
+12              0.06                    16
+13              0.06                    17
+[1] "Run 2017 New business All run settings applied 2025-01-31 17:41:26.191378"
+[1] "Run 2017 Assumptions read successfully 2025-01-31 17:41:26.264766"
+[1] "Run 2017 New business Calibration of discountfactors 2025-01-31 17:41:26.26544"
+[1] "Run 2017 New business reading of fulfilment cashflows 2025-01-31 17:41:26.892006"
+[1] "Initial Portf: BLL"
+[1] "Initial files:"
+character(0)
+[1] "Filtered files for BLL:"
+[[1]]
+[1] ""
+
+[1] "Final files:"
+[[1]]
+[1] ""
+
+[1] "Debugging Information:"
+[1] "URL: http://127.0.0.1:8000/configuration/insurance_variables/"
+[1] "HTTP Status: application/json"
+[1] "Data Retrieved Successfully:"
+  id  premium      claims acquisition     admin
+1  7 PREM_INC DEATH_OUTGO    INIt_EXP INIT_COMM
+

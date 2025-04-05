@@ -1,0 +1,95 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e8f5e9; /* Light green background */
+    color: #2e7d32; /* Deep green text */
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 2px solid #66bb6a; /* Light green border */
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #2e7d32; /* Deep green */
+    margin-bottom: 20px;
+}
+
+/* Form Labels */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Dropdown Menus */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #2e7d32; /* Deep green text */
+    border: 1px solid #66bb6a; /* Light green border */
+    border-radius: 5px;
+    background-color: #f4f9f4; /* Very light green background */
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+    border-color: #2e7d32; /* Darker green border on focus */
+    background-color: #e8f5e9; /* Light green background */
+}
+
+/* Submit Button */
+button {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #66bb6a; /* Light green button */
+    color: #ffffff; /* White text */
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #2e7d32; /* Darker green on hover */
+    transform: scale(1.02); /* Slightly larger on hover */
+}
+
+button:active {
+    transform: scale(0.98); /* Slightly smaller on click */
+}
+
+/* Error Message */
+#error-message {
+    color: #d32f2f; /* Red for error message */
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+}

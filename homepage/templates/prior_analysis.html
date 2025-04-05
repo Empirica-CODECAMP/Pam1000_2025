@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prior Analysis</title>
+</head>
+<body>
+    <h1>Prior Reporting</h1>
+    <form method="post">
+        <!-- Dropdown for stress -->
+        <label for="stress">Stress:</label>
+        <select name="stress" id="stress">
+            {% for s in stress %}
+                <option value="{{ s }}">{{ s }}</option>
+            {% endfor %}
+        </select>
+        
+        <!-- IF Section -->
+        <h2>IF Files</h2>
+        <h3>Insurance</h3>
+        <select name="if_insurance">
+            {% for file in if_data.insurance %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        <h3>Reinsurance</h3>
+        <select name="if_reinsurance">
+            {% for file in if_data.reinsurance %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        
+        <!-- NB Section -->
+        <h2>NB Files</h2>
+        <h3>Insurance</h3>
+        <select name="nb_insurance">
+            {% for file in nb_data.insurance %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        <h3>Reinsurance</h3>
+        <select name="nb_reinsurance">
+            {% for file in nb_data.reinsurance %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Run Status</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Model Run Status</h1>
+        <p><strong>Model Name:</strong> {{ model_run.model_name }}</p>
+        <p><strong>Run Date:</strong> {{ model_run.run_date }}</p>
+        <p><strong>Input Parameters:</strong></p>
+        <pre>{{ model_run.input_parameters }}</pre>
+        <p><strong>Run Number:</strong> {{ model_run.Run_Nr }}</p>
+        <p><strong>Previous Run Number:</strong> {{ model_run.PrevRun_Nr }}</p>
+        <p><strong>New Business Run Number:</strong> {{ model_run.NBRun_Nr }}</p>
+        <p><strong>Status:</strong> {{ model_run.status }}</p>
+        
+        {% if model_run.status == "failed" %}
+            <p><strong>Error Message:</strong> {{ model_run.error_message }}</p>
+        {% endif %}
+
+        {% if model_run.result_file %}
+            <p><strong>Result File:</strong> <a href="{{ model_run.result_file.url }}">Download</a></p>
+        {% endif %}
+
+        <a href="{% url 'run_model' %}">Run Another Model</a>
+    </div>
+</body>
+</html>

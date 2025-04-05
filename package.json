@@ -1,0 +1,6 @@
+{
+	"dependencies": {
+		"prettier": "^3.4.2",
+		"yaml-language-server": "1.15.1-8a38d41.0"
+	}
+}

@@ -1,0 +1,337 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
+	<title>Excel to Table</title>
+	<style>
+		#drop-area {
+			width: 100%;
+			height: 150px;
+			border: 2px dashed #007bff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #007bff;
+			font-size: 16px;
+			margin-bottom: 10px;
+			transition: border-color 0.3s;
+		}
+		#drop-area:hover {
+			border-color: #0056b3;
+		}
+		#sheet-selector {
+			margin: 10px 0;
+		}
+		body {
+			color: black;
+			background-color: white;
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div id="drop-area">Drag and drop your Excel file here</div>
+	<input type="file" id="file-upload" />
+	<select id="sheet-selector"></select>
+	<div id="example"></div>
+
+	<script>
+		const dropArea = document.querySelector('#drop-area');
+		const fileInput = document.querySelector('#file-upload');
+		const sheetSelector = document.querySelector('#sheet-selector');
+		const container = document.querySelector('#example');
+		let workbook; // To store the workbook object
+		let hot;
+
+		// Initialize Handsontable
+		function initHandsontable(data = [[]]) {
+			if (hot) {
+				hot.destroy(); // Destroy existing instance before reinitializing
+			}
+			hot = new Handsontable(container, {
+				data: data,
+				rowHeaders: true,
+				colHeaders: true,
+				stretchH: 'all', // Stretch columns to fit the container
+				height: '500px', // Fixed height with scrolling
+				width: '100%', // Full width
+				contextMenu: true,
+				licenseKey: 'non-commercial-and-evaluation' // For non-commercial use only
+			});
+		}
+
+		// Populate sheet selector
+		function populateSheetSelector(sheetNames) {
+			sheetSelector.innerHTML = ''; // Clear previous options
+			sheetNames.forEach((sheet, index) => {
+				const option = document.createElement('option');
+				option.value = sheet;
+				option.textContent = sheet;
+				option.selected = index === 0; // Select the first sheet by default
+				sheetSelector.appendChild(option);
+			});
+		}
+
+		// Function to display selected sheet data
+		function displaySheet(sheetName) {
+			const worksheet = workbook.Sheets[sheetName];
+			const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+				header: 1, // Array of arrays format
+				blankrows: true, // Include blank rows
+				defval: "" // Use empty string for missing values
+			});
+			initHandsontable(jsonData); // Populate Handsontable
+		}
+
+		// Function to handle file upload
+		function handleFile(file) {
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				const data = new Uint8Array(e.target.result);
+				workbook = XLSX.read(data, { type: 'array' });
+				populateSheetSelector(workbook.SheetNames); // Populate sheet dropdown
+				displaySheet(workbook.SheetNames[0]); // Display the first sheet by default
+			};
+			reader.readAsArrayBuffer(file);
+		}
+
+		// Drag-and-drop event listeners
+		dropArea.addEventListener('dragover', (e) => {
+			e.preventDefault();
+			dropArea.style.borderColor = '#0056b3';
+		});
+
+		dropArea.addEventListener('dragleave', () => {
+			dropArea.style.borderColor = '#007bff';
+		});
+
+		dropArea.addEventListener('drop', (e) => {
+			e.preventDefault();
+			dropArea.style.borderColor = '#007bff';
+			const file = e.dataTransfer.files[0];
+			if (file && file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+				handleFile(file);
+			} else {
+				alert('Please drop a valid Excel file.');
+			}
+		});
+
+		// File upload button listener
+		fileInput.addEventListener('change', (e) => {
+			const file = e.target.files[0];
+			if (file && file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+				handleFile(file);
+			} else {
+				alert('Please select a valid Excel file.');
+			}
+		});
+
+		// Sheet selector listener
+		sheetSelector.addEventListener('change', (e) => {
+			const selectedSheet = e.target.value;
+			displaySheet(selectedSheet);
+		});
+
+		// Initialize empty Handsontable
+		initHandsontable();
+	</script>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
+    <title>Excel to Table</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e8f5e9; /* Light green background */
+            color: #1b5e20; /* Dark green text */
+            margin: 0;
+            padding: 20px;
+        }
+
+        #drop-area {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #43a047; /* Green border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #43a047; /* Green text */
+            font-size: 16px;
+            margin-bottom: 10px;
+            background-color: #f1f8e9; /* Subtle green background */
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        #drop-area:hover {
+            border-color: #2e7d32; /* Darker green on hover */
+            background-color: #e0f2f1; /* Slightly different hover background */
+        }
+
+        #file-upload {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #1b5e20;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #1b5e20;
+            cursor: pointer;
+        }
+
+        #sheet-selector {
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #1b5e20;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #1b5e20;
+        }
+
+        #example {
+            margin-top: 20px;
+            border: 1px solid #c8e6c9; /* Light green border for table */
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #43a047; /* Green background for buttons */
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2e7d32; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #1b5e20;">Excel to Table</h1>
+
+    <div id="drop-area">Drag and drop your Excel file here</div>
+    <input type="file" id="file-upload" />
+    <select id="sheet-selector"></select>
+    <div id="example"></div>
+
+    <script>
+        const dropArea = document.querySelector('#drop-area');
+        const fileInput = document.querySelector('#file-upload');
+        const sheetSelector = document.querySelector('#sheet-selector');
+        const container = document.querySelector('#example');
+        let workbook; // To store the workbook object
+        let hot;
+
+        // Initialize Handsontable
+        function initHandsontable(data = [[]]) {
+            if (hot) {
+                hot.destroy(); // Destroy existing instance before reinitializing
+            }
+            hot = new Handsontable(container, {
+                data: data,
+                rowHeaders: true,
+                colHeaders: true,
+                stretchH: 'all', // Stretch columns to fit the container
+                height: '500px', // Fixed height with scrolling
+                width: '100%', // Full width
+                contextMenu: true,
+                licenseKey: 'non-commercial-and-evaluation' // For non-commercial use only
+            });
+        }
+
+        // Populate sheet selector
+        function populateSheetSelector(sheetNames) {
+            sheetSelector.innerHTML = ''; // Clear previous options
+            sheetNames.forEach((sheet, index) => {
+                const option = document.createElement('option');
+                option.value = sheet;
+                option.textContent = sheet;
+                option.selected = index === 0; // Select the first sheet by default
+                sheetSelector.appendChild(option);
+            });
+        }
+
+        // Function to display selected sheet data
+        function displaySheet(sheetName) {
+            const worksheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+                header: 1, // Array of arrays format
+                blankrows: true, // Include blank rows
+                defval: "" // Use empty string for missing values
+            });
+            initHandsontable(jsonData); // Populate Handsontable
+        }
+
+        // Function to handle file upload
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                workbook = XLSX.read(data, { type: 'array' });
+                populateSheetSelector(workbook.SheetNames); // Populate sheet dropdown
+                displaySheet(workbook.SheetNames[0]); // Display the first sheet by default
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Drag-and-drop event listeners
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.style.borderColor = '#2e7d32';
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.style.borderColor = '#43a047';
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.style.borderColor = '#43a047';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                handleFile(file);
+            } else {
+                alert('Please drop a valid Excel file.');
+            }
+        });
+
+        // File upload button listener
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                handleFile(file);
+            } else {
+                alert('Please select a valid Excel file.');
+            }
+        });
+
+        // Sheet selector listener
+        sheetSelector.addEventListener('change', (e) => {
+            const selectedSheet = e.target.value;
+            displaySheet(selectedSheet);
+        });
+
+        // Initialize empty Handsontable
+        initHandsontable();
+    </script>
+</body>
+</html>

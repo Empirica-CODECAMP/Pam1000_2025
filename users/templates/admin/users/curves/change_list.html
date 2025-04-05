@@ -1,0 +1,31 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <div>
+        <canvas id="chartCanvas" width="400" height="200"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart.js implementation
+        const ctx = document.getElementById('chartCanvas').getContext('2d');
+        const chartData = {{ chart_data|safe }};
+
+        const chart = new Chart(ctx, {
+            type: 'bar', // or 'line', 'pie', etc.
+            data: {
+                labels: chartData.labels,
+                datasets: chartData.datasets,
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    </script>
+{% endblock %}

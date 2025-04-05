@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yearly Dash</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h1>Yearly Dash</h1>
+    <form id="yearly-dash-form">
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option value="if_ins">if_ins</option>
+            <option value="if_reins">if_reins</option>
+            <option value="nb_ins">nb_ins</option>
+            <option value="nb_reins">nb_reins</option>
+        </select>
+
+        <fieldset>
+            <legend>Select Years:</legend>
+            <label><input type="checkbox" name="years" value="2024"> 2024</label>
+            <label><input type="checkbox" name="years" value="2023"> 2023</label>
+            <label><input type="checkbox" name="years" value="2022"> 2022</label>
+            <label><input type="checkbox" name="years" value="2021"> 2021</label>
+            <label><input type="checkbox" name="years" value="2020"> 2020</label>
+        </fieldset>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <canvas id="myChart" width="800" height="400"></canvas>
+    <button id="download-csv" style="display: none;">Download CSV</button>
+
+    <script>
+        document.getElementById('yearly-dash-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const category = document.getElementById('category').value;
+            const yearInputs = document.querySelectorAll('input[name="years"]:checked');
+            const years = Array.from(yearInputs).map(input => input.value);
+
+            if (years.length === 0) {
+                alert("Please select at least one year.");
+                return;
+            }
+
+            // Use FormData to handle multiple `years` values as separate key-value pairs
+            const formData = new FormData();
+            formData.append('category', category);
+            years.forEach(year => formData.append('years', year));
+
+            try {
+                const response = await fetch(`/test/Base/`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Extract the total_sum from the response
+                    const totalSum = data.total_sum;
+
+                    // Prepare dynamic labels and datasets
+                    const labels = [];
+                    const metricsMap = {}; // Store data by metric type
+
+                    totalSum.forEach(item => {
+                        const year = item["Sum Year"];
+                        const metric = item["Metric"];
+                        const sum = item["Sum"];
+
+                        // Add the year to labels if it's not already there
+                        if (!labels.includes(year)) {
+                            labels.push(year);
+                        }
+
+                        // Initialize the dataset array for the metric if it doesn't exist
+                        if (!metricsMap[metric]) {
+                            metricsMap[metric] = [];
+                        }
+
+                        // Assign the sum value to the appropriate metric's dataset
+                        metricsMap[metric].push(sum);
+                    });
+
+                    // Now, dynamically build the datasets for Chart.js
+                    const datasets = Object.keys(metricsMap).map((metric, index) => {
+                        return {
+                            label: metric,
+                            data: metricsMap[metric],
+                            backgroundColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 0.2)`, // Dynamic color
+                            borderColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`,
+                            borderWidth: 1
+                        };
+                    });
+
+                    // Create the chart using Chart.js
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    const myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: datasets
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    // Enable the download button
+                    const downloadBtn = document.getElementById('download-csv');
+                    downloadBtn.style.display = 'block';
+                    downloadBtn.onclick = async () => {
+                        try {
+                            const downloadResponse = await fetch(`/download_csv/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: new URLSearchParams({file_path: data.file_path}),
+                            });
+
+                            if (downloadResponse.ok) {
+                                const blob = await downloadResponse.blob();
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = data.file_path.split('/').pop();
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                            } else {
+                                console.error('File download failed.');
+                            }
+                        } catch (err) {
+                            console.error('Download error:', err);
+                        }
+                    };
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

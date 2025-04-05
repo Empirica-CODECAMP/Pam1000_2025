@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAM1000 Dashboard</title>
+    <link rel="stylesheet" href="/static/start.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo" onclick="window.location.href='/home'">PAM 1000</div>
+        <div>
+            <a href="/" class="icon">🏠 View Site</a>
+            <a href="/admin/" class="icon">⚙️ Admin</a>
+            <div class="dropdown">
+                <a href="#" class="icon">👤 Profile</a>
+                <div class="dropdown-content">
+                    <a href="#">👤 Username</a>
+                    <a href="#">🔑 Change Password</a>
+                    <a href="#">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <input type="text" class="search-bar" placeholder="Search...">
+            <!-- <a href="#" class="dashboard-link" data-src="{% url 'dashboard_page' %}">📊 Dashboard</a> -->
+            <a href="#" class="dashboard-link" data-src="{% url 'edit_inputs' %}">📊 Edit</a>
+
+            <!-- <a href="#" class="dashboard-link" data-src="{% url 'actuarial_reports_page' %}">📑 Actuarial Reports</a> -->
+            <a href="#" class="dashboard-link" data-src="{% url 'fetch_results' %}">📊 Actuarial Reports</a>
+            <a href="#" class="dashboard-link" data-src="{% url 'config' %}">🛠️ Configuration</a>
+            <a href="#" class="dashboard-link" data-src="{% url 'calculations' %}">🧮 Calculations</a>
+            <a href="#" class="dashboard-link" data-src="{% url 'orsa_config' %}">🛠️ ORSA Configuration</a>
+            <a href="#" class="dashboard-link" data-src="{% url 'cashflow_analysis' %}">📊 Cashflow Config</a>
+            <!-- <a href="#" class="dashboard-link" data-src="{% url 'cashflow_metrics' %}"> Cashflow Metrics</a> -->
+            <a href="#" class="dashboard-link" data-src="{% url 'stress_selection' %}">📊 Cashflow Analysis</a>
+            <a href="#" class="dashboard-link" data-src="{% url 'fcf_vars_page' %}">📊 Fufilment cashflow variables</a>
+            <a href="#" class="dashboard-link" data-src="{% url 'prior_reports_page' %}">Prior Reports</a>
+            <a href="#" class="dashboard-link" data-src="{% url 'yearly_test' %}">Year Report</a>
+
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- <h2>Welcome to PAM1000 Dashboard</h2> -->
+            <!-- Iframe for dynamic content loading -->
+            <iframe id="app-iframe" src="" width="100%" height="600px" style="border:none;"></iframe>
+        </div>
+    </div>
+
+    <!-- JavaScript for handling dynamic content loading -->
+    <script>
+        document.querySelectorAll('.dashboard-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const src = e.target.getAttribute('data-src');
+                const iframe = document.getElementById('app-iframe');
+
+                // Set the src of the iframe to load the corresponding content
+                if (src) {
+                    iframe.src = src;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

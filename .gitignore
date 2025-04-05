@@ -1,0 +1,6 @@
+.venv
+.dockerignore
+__pycache__/
+*.pyc
+*.pyo
+Acturial_Reports/__pycache__/

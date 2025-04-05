@@ -1,0 +1,342 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORSA Config</title>
+    <link rel="stylesheet" href="/static/orsa_config.css">
+</head>
+
+<body>
+    <h1>ORSA Configuration</h1>
+
+    <!-- Display messages -->
+    {% if messages %}
+    <div class = "message">
+        {% for message in messages %}
+        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main form to run the model -->
+    <form action="/orsa_config/" method="post">
+        {% csrf_token %}
+
+        <label for="RunNr">Run Number:</label>
+        <select name="RunNr" id="RunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="NBRunNr">NB Run Number:</label>
+        <select name="NBRunNr" id="NBRunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="PrevRunNr">Previous Run Number:</label>
+        <select name="PrevRunNr" id="PrevRunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="Stress">Stress:</label>
+        <select name="Stress" id="Stress">
+            {% for config in orsa_configs %}
+            <option value="{{ config.Stress }}">{{ config.Stress }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" name="action" value="run_model">Run Model</button>
+    </form>
+
+    <hr>
+
+    <!-- Manage ORSA Config -->
+    <h2>Manage ORSA Config</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Stress</th>
+                <th>Value</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for config in orsa_configs %}
+            <tr>
+                <form action="/orsa_config/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="ORSA_ID" value="{{ config.id }}">
+                    <td><input type="text" name="Stress" value="{{ config.Stress }}"></td>
+                    <td><input type="text" name="Value" value="{{ config.Value }}"></td>
+                    <td><input type="text" name="Description" value="{{ config.Description }}"></td>
+                    <td>
+                        <button type="submit" name="action" value="save_or_update">Save</button>
+                        <button type="submit" name="action" value="delete">Delete</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <form action="/orsa_config/" method="post">
+                    {% csrf_token %}
+                    <td><input type="text" name="Stress" placeholder="New Stress"></td>
+                    <td><input type="text" name="Value" placeholder="New Value"></td>
+                    <td><input type="text" name="Description" placeholder="New Description"></td>
+                    <td><button type="submit" name="action" value="save_or_update">Add</button></td>
+                </form>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORSA Config</title>
+    <link rel="stylesheet" href="/static/orsa_config.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #28a745;
+            text-align: center;
+        }
+
+        .message {
+            margin: 10px auto;
+            max-width: 800px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        form select, form input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #28a745;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e6f9e6;
+        }
+
+        td input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        td button {
+            padding: 6px 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        td button:hover {
+            background-color: #218838;
+        }
+
+        td button:last-child {
+            background-color: #dc3545;
+        }
+
+        td button:last-child:hover {
+            background-color: #a71d2a;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ORSA Configuration</h1>
+
+    <!-- Display messages -->
+    {% if messages %}
+    <div class="message">
+        {% for message in messages %}
+        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main form to run the model -->
+    <form action="/orsa_config/" method="post">
+        {% csrf_token %}
+
+        <label for="RunNr">Run Number:</label>
+        <select name="RunNr" id="RunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="NBRunNr">NB Run Number:</label>
+        <select name="NBRunNr" id="NBRunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="PrevRunNr">Previous Run Number:</label>
+        <select name="PrevRunNr" id="PrevRunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="Stress">Stress:</label>
+        <select name="Stress" id="Stress">
+            {% for config in orsa_configs %}
+            <option value="{{ config.Stress }}">{{ config.Stress }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" name="action" value="run_model">Run Model</button>
+    </form>
+
+    <hr>
+
+    <!-- Manage ORSA Config -->
+    <h2>Manage ORSA Config</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Stress</th>
+                <th>Value</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for config in orsa_configs %}
+            <tr>
+                <form action="/orsa_config/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="ORSA_ID" value="{{ config.id }}">
+                    <td><input type="text" name="Stress" value="{{ config.Stress }}"></td>
+                    <td><input type="text" name="Value" value="{{ config.Value }}"></td>
+                    <td><input type="text" name="Description" value="{{ config.Description }}"></td>
+                    <td>
+                        <button type="submit" name="action" value="save_or_update">Save</button>
+                        <button type="submit" name="action" value="delete">Delete</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <form action="/orsa_config/" method="post">
+                    {% csrf_token %}
+                    <td><input type="text" name="Stress" placeholder="New Stress"></td>
+                    <td><input type="text" name="Value" placeholder="New Value"></td>
+                    <td><input type="text" name="Description" placeholder="New Description"></td>
+                    <td><button type="submit" name="action" value="save_or_update">Add</button></td>
+                </form>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+
+</html>

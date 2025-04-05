@@ -1,0 +1,360 @@
+{% comment %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editable CRUD Table</title>
+  <link rel="stylesheet" href="/static/cashflow_analysis.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    td[contenteditable] {
+      background-color: #eef;
+    }
+  </style>
+  <script>
+    // Fetch and display data
+    async function fetchData() {
+      const response = await fetch('api'); // Fetch data from the API
+      const data = await response.json();
+      const tableBody = document.getElementById('data-table-body');
+      tableBody.innerHTML = '';
+      data.forEach(item => {
+        const row = `
+          <tr>
+            <td>${item.id}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'premiums', this.textContent)">${item.premiums}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'claims', this.textContent)">${item.claims || 'N/A'}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'admin', this.textContent)">${item.admin}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'acquisitions', this.textContent)">${item.acquisitions}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'type', this.textContent)">${item.type}</td>
+            <td>
+              <button onclick="deleteItem(${item.id})">Delete</button>
+            </td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    // Create a new record
+    async function createItem() {
+      const premiums = document.getElementById('premiums').value;
+      const claims = document.getElementById('claims').value;
+      const admin = document.getElementById('admin').value;
+      const acquisitions = document.getElementById('acquisitions').value;
+      const type = document.getElementById('type').value;
+      const response = await fetch('api', {
+        method: 'POST',
+        body: new URLSearchParams({premiums, claims, admin, acquisitions, type}),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      });
+
+      if (response.ok) {
+        alert('Created successfully');
+        fetchData();
+      }
+    }
+
+    // Update a specific field in a record
+    async function updateItem(id, field, value) {
+      const response = await fetch('api', {
+        method: 'PUT',
+        body: JSON.stringify({id, [field]: value}),
+        headers: {'Content-Type': 'application/json'}
+      });
+
+      if (response.ok) {
+        console.log(`Updated ${field} of ID ${id} successfully`);
+      } else {
+        alert(`Failed to update ${field}.`);
+      }
+    }
+
+    // Delete an item
+    async function deleteItem(id) {
+      const response = await fetch('api', {
+        method: 'DELETE',
+        body: JSON.stringify({id}),
+        headers: {'Content-Type': 'application/json'}
+      });
+
+      if (response.ok) {
+        alert('Deleted successfully');
+        fetchData();
+      }
+    }
+
+    // Fetch data on page load
+    window.onload = fetchData;
+  </script>
+</head>
+
+<body>
+  <h1>Fufilment Cashflow variables</h1>
+
+  <!-- Form to add a new record -->
+  <form onsubmit="event.preventDefault(); createItem();">
+    <input id="premiums" placeholder="Premiums" required />
+    <input id="claims" placeholder="Claims" />
+    <input id="admin" placeholder="Admin" required />
+    <input id="acquisitions" placeholder="Acquisitions" required />
+    <select id="type">
+      <option value="Insurance">Insurance</option>
+      <option value="Reinsurance">Reinsurance</option>
+    </select> <button type="submit">Add Record</button>
+  </form>
+
+  <!-- Table to display data -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Premiums</th>
+        <th>Claims</th>
+        <th>Admin</th>
+        <th>Acquisitions</th>
+        <th>Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="data-table-body">
+      <!-- Data will be dynamically added here -->
+    </tbody>
+  </table>
+</body>
+
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editable CRUD Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    form input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    form button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #218838;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #28a745;
+      color: white;
+    }
+
+    td {
+      background-color: #fefefe;
+      transition: background-color 0.3s ease;
+    }
+
+    td[contenteditable] {
+      background-color: #e6f9e6;
+      cursor: text;
+    }
+
+    td[contenteditable]:focus {
+      outline: none;
+      border: 2px solid #28a745;
+      background-color: #d4edda;
+    }
+
+    button {
+      padding: 6px 12px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a71d2a;
+    }
+  </style>
+  <script>
+    // Fetch and display data
+    async function fetchData() {
+      const response = await fetch('api');
+      const data = await response.json();
+      const tableBody = document.getElementById('data-table-body');
+      tableBody.innerHTML = '';
+      data.forEach(item => {
+        const row = `
+          <tr>
+            <td>${item.id}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'premiums', this.textContent)">${item.premiums}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'claims', this.textContent)">${item.claims || 'N/A'}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'admin', this.textContent)">${item.admin}</td>
+            <td contenteditable="true" onblur="updateItem(${item.id}, 'acquisitions', this.textContent)">${item.acquisitions}</td>
+             <td contenteditable="true" onblur="updateItem(${item.id}, 'type', this.textContent)">${item.type}</td>           <td>
+              <button onclick="deleteItem(${item.id})">Delete</button>
+            </td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    // Create a new record
+    async function createItem() {
+      const premiums = document.getElementById('premiums').value;
+      const claims = document.getElementById('claims').value;
+      const admin = document.getElementById('admin').value;
+      const acquisitions = document.getElementById('acquisitions').value;
+      const type = document.getElementById('type').value
+      const response = await fetch('api', {
+        method: 'POST',
+        body: new URLSearchParams({premiums, claims, admin, acquisitions, type}),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      });
+
+      if (response.ok) {
+        alert('Created successfully');
+        fetchData();
+      }
+    }
+
+    // Update a specific field in a record
+    async function updateItem(id, field, value) {
+      const response = await fetch('api', {
+        method: 'PUT',
+        body: JSON.stringify({id, [field]: value}),
+        headers: {'Content-Type': 'application/json'}
+      });
+
+      if (response.ok) {
+        console.log(`Updated ${field} of ID ${id} successfully`);
+      } else {
+        alert(`Failed to update ${field}.`);
+      }
+    }
+
+    // Delete an item
+    async function deleteItem(id) {
+      const response = await fetch('api', {
+        method: 'DELETE',
+        body: JSON.stringify({id}),
+        headers: {'Content-Type': 'application/json'}
+      });
+
+      if (response.ok) {
+        alert('Deleted successfully');
+        fetchData();
+      }
+    }
+
+    // Fetch data on page load
+    window.onload = fetchData;
+  </script>
+</head>
+
+<body>
+  <h1>Fulfillment Cashflow Variables</h1>
+
+  <!-- Form to add a new record -->
+  <form onsubmit="event.preventDefault(); createItem();">
+    <input id="premiums" placeholder="Premiums" required />
+    <input id="claims" placeholder="Claims" />
+    <input id="admin" placeholder="Admin" required />
+    <input id="acquisitions" placeholder="Acquisitions" required />
+    <select id="type">
+      <option value="Insurance">Insurance</option>
+      <option value="Reinsurance">Reinsurance</option>
+    </select> <button type="submit">Add Record</button>
+  </form>
+
+  <!-- Table to display data -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Premiums</th>
+        <th>Claims</th>
+        <th>Admin</th>
+        <th>Acquisitions</th>
+        <th>Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="data-table-body">
+      <!-- Data will be dynamically added here -->
+    </tbody>
+  </table>
+</body>
+
+</html>

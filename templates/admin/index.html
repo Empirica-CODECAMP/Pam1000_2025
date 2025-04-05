@@ -1,0 +1,29 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+{% block title %}
+    Insurance Dashboard | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            {{ site_header|default:_('Insurance Dashboard') }}
+        </a>
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <h1>Insurance Dashboard</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <iframe src="{% url 'dashboard_charts' %}" frameborder="0" width="100%" height="600px"></iframe>
+
+
+{% endblock %}
+

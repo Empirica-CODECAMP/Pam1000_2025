@@ -1,0 +1,84 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f9f4; /* Light greenish background */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    color: #2e7d32; /* Deep green */
+    margin-top: 20px;
+    font-size: 2.5rem;
+}
+
+/* Form Styles */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White form background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 2px solid #66bb6a; /* Green border */
+}
+
+/* Form Labels */
+label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #2e7d32; /* Deep green */
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Select Inputs */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #66bb6a; /* Green border */
+    background-color: #f4f9f4; /* Light green background */
+    font-size: 1rem;
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    border-color: #2e7d32; /* Darker green focus border */
+    background-color: #e8f5e9; /* Slightly darker green */
+}
+
+/* Submit Button */
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #66bb6a; /* Main green color */
+    color: #fff;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #2e7d32; /* Darker green on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    form {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}

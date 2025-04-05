@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparison</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 320px;
+      /* Adjusted width for better layout */
+      box-sizing: border-box;
+      /* Ensures padding and border are included in the width */
+    }
+
+    form h2 {
+      margin-bottom: 20px;
+      font-size: 20px;
+      /* Slightly larger font size for heading */
+      color: #555;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 90%;
+      padding: 10px;
+      /* Slightly more padding for a softer feel */
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #333;
+      /* Dark text color */
+      border: 1px solid #66bb6a;
+      /* Light green border */
+      border-radius: 5px;
+      /* Rounded corners */
+      background-color: #f4f9f4;
+      /* Very light green background */
+      outline: none;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    input[type="number"]:focus,
+    input[type="text"]:focus,
+    select:focus {
+      border-color: #2e7d32;
+      /* Dark green border when focused */
+      background-color: #e8f4e1;
+      /* Light green background when focused */
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4caf50;
+      /* Green background color */
+      color: #fff;
+      /* White text color */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+      /* Darker green on hover */
+    }
+
+    button:active {
+      background-color: #2e7d32;
+      /* Deep green when pressed */
+    }
+  </style>
+</head>
+
+<body>
+  <form method="post" action="/prior_reporting/">
+    <h2>Prior Reporting</h2>
+
+    <label for="stress">Stress</label>
+    <input type="text" id="stress" name="stress" placeholder="Enter stress" value="Base">
+
+    <label for="reporting_year">Reporting Year</label>
+    <input type="number" id="reporting_year" name="reporting_year" placeholder="Enter reporting year" value="2024">
+
+    <label for="type_ins">Type</label>
+    <select id="type_ins" name="type_ins">
+      <option value="Insurance">Insurance</option>
+      <option value="Reinsurance">Reinsurance</option>
+    </select>
+
+    <label for="category">Category</label>
+    <select id="category" name="category">
+      <option value="IF">In-Force</option>
+      <option value="NB">New Business</option>
+
+    </select>
+
+    <label for="group">Group</label>
+    <select id="group" name="group">
+      <option value="Onerous">Onerous</option>
+      <option value="Non-onerous">Non-onerous</option>
+      <option value="Remaining">Remaining</option>
+    </select>
+
+    <button type="submit">Submit</button>
+  </form>
+</body>
+
+</html>

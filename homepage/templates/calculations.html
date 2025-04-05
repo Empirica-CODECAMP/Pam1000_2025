@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #28a745;
+            margin: 20px 0;
+        }
+
+        #messages {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        #messages p {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        form {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            width: 80%;
+            margin: 10px auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        select,
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Run Model</h1>
+
+    <!-- Display messages -->
+    {% if messages %}
+    <div id="messages">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form action="/calculations/" method="post">
+        {% csrf_token %}
+
+        <!-- RunNr Dropdown -->
+        <label for="RunNr">Run Number:</label>
+        <select name="RunNr" id="RunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- NBRunNr Dropdown -->
+        <label for="NBRunNr">NB Run Number:</label>
+        <select name="NBRunNr" id="NBRunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- PrevRunNr Dropdown -->
+        <label for="PrevRunNr">Previous Run Number:</label>
+        <select name="PrevRunNr" id="PrevRunNr">
+            {% for i in years %}
+            <option value="{{ i }}" {% if i == current_year %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Submit Button -->
+        <button type="submit">Run Model</button>
+    </form>
+</body>
+
+</html>

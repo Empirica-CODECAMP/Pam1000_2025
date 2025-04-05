@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Preview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Preview: {{ file_name }}</h1>
+    <div id="handsontable-container" class="mt-4"></div>
+    <a href="#" onclick="window.close();" class="btn btn-secondary mt-3">Close</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('handsontable-container');
+
+        const data = {{ data_json|safe }}; // Injected JSON data
+        const columns = {{ columns|safe }}; // Injected column names
+
+        new Handsontable(container, {
+            data: data,
+            colHeaders: columns,
+            rowHeaders: true,
+            filters: true,
+            dropdownMenu: true,
+            stretchH: 'all',
+            licenseKey: 'non-commercial-and-evaluation'
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <nav>
+        <a href="/stress_dashboard/{{stress}}">Dashboard</a>
+        <a href="/stress_selection">Back</a>
+    </nav>
+<div class="container mt-5">
+    <h1>Files for Stress: {{ stress }}</h1>
+
+    {% for category in categories %}
+        <h2>{{ category.category }} Data</h2>
+        <div class="mb-3">
+            <label for="file-select-{{ forloop.counter }}" class="form-label">{{ category.category }} Files</label>
+            <select id="file-select-{{ forloop.counter }}" class="form-select file-select" data-category="{{ category.category }}">
+                <option value="" disabled selected>Select a file</option>
+                {% for sub_category, files in category.data.items %}
+                    <optgroup label="{{ sub_category }}">
+                        {% for file, path in files.items %}
+                            <option value="{{ path }}">{{ file }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endfor %}
+            </select>
+            <button class="btn btn-primary mt-2 preview-btn" data-target="file-select-{{ forloop.counter }}">Preview</button>
+        </div>
+    {% endfor %}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.preview-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const selectId = button.getAttribute('data-target');
+                const fileSelect = document.getElementById(selectId);
+                const filePath = fileSelect.value;
+
+                if (filePath) {
+                   // Adjust the width, height, and other properties here
+                const width = 1000; // Set your desired width
+                const height = 800; // Set your desired height
+                const left = (screen.width - width) / 2; // Center horizontally
+                const top = (screen.height - height) / 2; // Center vertically
+
+                window.open(
+                    `/file_preview?file_path=${encodeURIComponent(filePath)}`,
+                    '_blank',
+                    `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`
+                );
+                } else {
+                    alert('Please select a file to preview.');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

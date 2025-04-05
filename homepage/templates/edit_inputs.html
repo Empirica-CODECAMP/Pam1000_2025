@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Inputs</title>
+    <style>
+        body {
+            background-color: #e0f7e0; /* Light green background */
+            color: #2f4f2f; /* Dark green text */
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            background-color: #d4edda; /* Light green form background */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, button {
+            margin-top: 5px;
+            padding: 5px;
+            border: 1px solid #2f4f2f; /* Dark green border */
+            border-radius: 3px;
+        }
+
+        a {
+            color: #2f4f2f; /* Dark green link color */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Stress Folder Selection -->
+    <form method="POST">
+        {% csrf_token %}
+        <label for="stress">Select Stress:</label>
+        <select name="stress" id="stress">
+            {% for item in stress %}
+                <option value="{{ item }}" {% if item == stress_folder %}selected{% endif %}>
+                    {{ item }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- File Selection and Actions -->
+    {% if toggle == "on" %}
+    <form method="POST" action="{% url 'edit_inputs' %}">
+        {% csrf_token %}
+        <label for="action">Choose Action:</label>
+        <select name="action" id="action">
+            <option value="delete">Delete</option>
+            <option value="download">Download</option>
+        </select>
+        <input type="hidden" name="stress_folder" value="{{ stress_folder }}">
+        <button type="submit">Submit</button>
+        
+        <button type="button" id="select-all-btn">Select All</button>
+        <label for="files">Select Files:</label><br>
+        {% for file in files %}
+            <input type="checkbox" name="selected_files" value="{{ file }}" id="{{ file }}">
+            <label for="{{ file }}">
+                <a href="{% url 'view_file' stress=stress_folder file_path=file %}" target="_blank">{{ file }}</a>
+            </label><br>
+        {% endfor %}
+    </form>
+    {% endif %}
+
+    <script>
+        document.getElementById('select-all-btn').addEventListener('click', function() {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var allSelected = Array.from(checkboxes).every(cb => cb.checked);
+
+            checkboxes.forEach(cb => cb.checked = !allSelected);
+        });
+    </script>
+</body>
+</html>

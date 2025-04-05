@@ -1,0 +1,42 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.main_page, name="main_page"),
+    path("dashboard/", views.dashboard_page, name="dashboard_page"),
+    path("login/", views.login_page, name="login_page"),
+    path("home/", views.start_page, name="start_page"),
+    path(
+        "actuarial_reports/",
+        views.actuarial_reports_page,
+        name="actuarial_reports_page",
+    ),
+    path("fetch_results/", views.fetch_results, name="fetch_results"),
+    path("download_file/", views.download_file, name="download_file"),
+    path("configuration/", views.config, name="config"),
+    path("calculations/", views.Calculations, name="calculations"),
+    path("orsa_config/", views.orsa_config, name="orsa_config"),
+    path("orsa_config/delete/", views.delete_orsa_config, name="delete_orsa_config"),
+    path("cashflow_analysis/", views.cashflow_analysis, name="cashflow_analysis"),
+    path("preview/", views.preview, name="preview"),
+    path("cashflow_metrics/", views.cashflow_metrics, name="cashflow_metrics"),
+    path("cashflow_metrics2/", views.cashflow_metrics2, name="cashflow_metrics2"),
+    path("stress_selection", views.stress_selection, name="stress_selection"),
+    path("file_list/<str:stress>/", views.file_list, name="file_list"),
+    path("file_preview", views.file_preview, name="file_preview"),
+    path(
+        "stress_dashboard/<str:stress>/",
+        views.stress_dashboard,
+        name="stress_dashboard",
+    ),
+    path("prior/", views.prior_analysis, name="prior_analysis"),
+    path("priors/", views.prior_reports_page, name="prior_reports_page"),
+    path("prior_reporting/", views.prior_reporting, name="prior_reporting"),
+    path("edit/", views.edit_inputs, name="edit_inputs"),
+    path("view-file/<str:stress>/<str:file_path>/", views.view_file, name="view_file"),
+    path("quick/<str:stress>/", views.cumulative_dashboard, name="quick"),
+    path("yearly_dash/<str:stress>/", views.yearly_dashboard, name="yearly_dashboard"),
+    path("test/<str:stress>/", views.test, name="test"),
+    path("year_dash/", views.yearly_test, name="yearly_test"),
+    path("download_csv/", views.download_csv, name="download_csv"),
+]

@@ -1,0 +1,18 @@
+1. Configurations: For uploading forward rates and stress input files
+
+2. Edit: Select stress where files are stored to view them and delete them in necessary.
+
+3. Calculations: add year parameters to run the model
+
+4. Actuarial Reports: Fetch summarizes results from running the model
+
+
+###### FEATURES
+
+1. ORSA Config: Used to run the model testing different scenarios. E.g. Base running 2025 and Stress 1 running 2025 with input values at 10% addition.
+
+2. Cashflow Config: same as Configuration but you can preview file data
+
+3. Cashflow Analysis: Dashboards and graphs 
+
+4. 

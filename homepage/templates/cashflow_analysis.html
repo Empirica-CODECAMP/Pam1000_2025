@@ -1,0 +1,493 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashflow Analysis</title>
+    <link rel="stylesheet" href="/static/cashflow_analysis.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        /* Modal styles */
+        #preview-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+        #preview-modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 900px;
+            max-height: 80%;
+            overflow: auto;
+        }
+        #preview-close {
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #file-and-sheet-controls {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Cashflow Analysis</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="input_files_stress">Input Files Stress:</label>
+    <input type="text" name="input_files_stress" id="input_files_stress">
+
+    <label for="input_files">Select Input Files:</label>
+    <input type="file" multiple accept=".csv,.xlsx,.xlsm" name="input_files" id="input_files" multiple>
+
+    <label for="forward_rate_stress">Forward Rate Stress:</label>
+    <input type="text" name="forward_rate_stress" id="forward_rate_stress">
+
+    <label for="forward_rate_file">Select Forward Rate Files:</label>
+    <input type="file" multiple accept=".csv,.xlsx,.xlsm" name="forward_rate_file" id="forward_rate_file">
+
+    <button type="button" id="preview-button">Preview Files</button>
+    <button type="submit">Upload Files</button>
+</form>
+
+<div id="preview-modal">
+    <div id="preview-modal-content">
+        <span id="preview-close">&times;</span>
+        <div id="file-and-sheet-controls">
+            <label for="file-select">Select File:</label>
+            <select id="file-select"></select>
+
+            <label for="sheet-select">Select Sheet:</label>
+            <select id="sheet-select"></select>
+        </div>
+        <div id="handsontable-container"></div>
+    </div>
+</div>
+
+<script>
+    const inputFiles = document.getElementById('input_files');
+    const previewButton = document.getElementById('preview-button');
+    const modal = document.getElementById('preview-modal');
+    const closeModal = document.getElementById('preview-close');
+    const fileSelect = document.getElementById('file-select');
+    const sheetSelect = document.getElementById('sheet-select');
+    const handsontableContainer = document.getElementById('handsontable-container');
+    let fileData = {}; // Store file data with sheet information
+    let hot;  // Handsontable instance
+
+    // Initialize Handsontable
+    function initHandsontable(data) {
+        if (hot) hot.destroy();  // Destroy existing instance
+        hot = new Handsontable(handsontableContainer, {
+            data: data,
+            rowHeaders: true,
+            colHeaders: true,
+            stretchH: 'all',
+            height: '400px',
+            licenseKey: 'non-commercial-and-evaluation',
+        });
+    }
+
+    // Open modal
+    function openPreview() {
+        modal.style.display = 'flex';
+        populateFileSelect();
+    }
+
+    // Close modal
+    function closeModalHandler() {
+        modal.style.display = 'none';
+    }
+
+    // Populate file dropdown
+    function populateFileSelect() {
+        fileSelect.innerHTML = '';
+        Object.keys(fileData).forEach((filename, index) => {
+            const option = document.createElement('option');
+            option.value = filename;
+            option.textContent = filename;
+            if (index === 0) option.selected = true; // Select first file by default
+            fileSelect.appendChild(option);
+        });
+        populateSheetSelect();
+    }
+
+    // Populate sheet dropdown
+    function populateSheetSelect() {
+        const selectedFile = fileSelect.value;
+        const sheets = fileData[selectedFile].sheetNames;
+        sheetSelect.innerHTML = '';
+        sheets.forEach((sheet, index) => {
+            const option = document.createElement('option');
+            option.value = sheet;
+            option.textContent = sheet;
+            if (index === 0) option.selected = true; // Select first sheet by default
+            sheetSelect.appendChild(option);
+        });
+        displaySheetData();
+    }
+
+    // Display selected sheet data
+    function displaySheetData() {
+        const selectedFile = fileSelect.value;
+        const selectedSheet = sheetSelect.value;
+        const data = fileData[selectedFile].sheets[selectedSheet];
+        initHandsontable(data);
+    }
+
+    // Handle file reading and data extraction
+    function handleFiles(files) {
+        fileData = {}; // Reset file data
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const sheets = workbook.SheetNames;
+                const sheetData = {};
+                sheets.forEach(sheetName => {
+                    sheetData[sheetName] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, blankrows: true, defval: '' });
+                });
+                fileData[file.name] = { sheetNames: sheets, sheets: sheetData };
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    // Event listeners
+    inputFiles.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
+
+    previewButton.addEventListener('click', () => {
+        if (Object.keys(fileData).length > 0) {
+            openPreview();
+        } else {
+            alert('Please select files first.');
+        }
+    });
+
+    closeModal.addEventListener('click', closeModalHandler);
+
+    fileSelect.addEventListener('change', populateSheetSelect);
+
+    sheetSelect.addEventListener('change', displaySheetData);
+
+    // Close modal when clicking outside content
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModalHandler();
+        }
+    });
+</script>
+
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashflow Analysis</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <!-- Embedded CSS -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50; /* Green color for heading */
+            padding-top: 20px;
+        }
+
+        /* Form Styling */
+        form {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green button */
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect for button */
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Hover effect for form inputs */
+        input[type="text"]:hover,
+        input[type="file"]:hover {
+            border-color: #4CAF50; /* Green border on hover */
+        }
+
+        /* Modal Styles */
+        #preview-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        #preview-modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 900px;
+            max-height: 80%;
+            overflow: auto;
+        }
+
+        #preview-close {
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #file-and-sheet-controls {
+            margin-bottom: 10px;
+        }
+
+        /* Select Dropdown Hover */
+        select:hover {
+            border-color: #4CAF50; /* Green border on hover */
+        }
+
+        /* Styling for Handsontable */
+        #handsontable-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        /* General Styling for Modal Close */
+        #preview-close:hover {
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        /* Other Adjustments */
+        input[type="text"], input[type="file"] {
+            transition: border-color 0.3s ease;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50; /* Green button for submit */
+            color: white;
+        }
+
+        /* Hover effect for Submit button */
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Cashflow Analysis</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="input_files_stress">Input Files Stress:</label>
+    <input type="text" name="input_files_stress" id="input_files_stress">
+
+    <label for="input_files">Select Input Files:</label>
+    <input type="file" name="input_files" id="input_files" multiple>
+
+    <label for="forward_rate_stress">Forward Rate Stress:</label>
+    <input type="text" name="forward_rate_stress" id="forward_rate_stress">
+
+    <label for="forward_rate_file">Select Forward Rate Files:</label>
+    <input type="file" name="forward_rate_file" id="forward_rate_file">
+
+    <button type="button" id="preview-button">Preview Files</button>
+    <button type="submit">Upload Files</button>
+</form>
+
+<div id="preview-modal">
+    <div id="preview-modal-content">
+        <span id="preview-close">&times;</span>
+        <div id="file-and-sheet-controls">
+            <label for="file-select">Select File:</label>
+            <select id="file-select"></select>
+
+            <label for="sheet-select">Select Sheet:</label>
+            <select id="sheet-select"></select>
+        </div>
+        <div id="handsontable-container"></div>
+    </div>
+</div>
+
+<script>
+    const inputFiles = document.getElementById('input_files');
+    const previewButton = document.getElementById('preview-button');
+    const modal = document.getElementById('preview-modal');
+    const closeModal = document.getElementById('preview-close');
+    const fileSelect = document.getElementById('file-select');
+    const sheetSelect = document.getElementById('sheet-select');
+    const handsontableContainer = document.getElementById('handsontable-container');
+    let fileData = {}; // Store file data with sheet information
+    let hot;  // Handsontable instance
+
+    // Initialize Handsontable
+    function initHandsontable(data) {
+        if (hot) hot.destroy();  // Destroy existing instance
+        hot = new Handsontable(handsontableContainer, {
+            data: data,
+            rowHeaders: true,
+            colHeaders: true,
+            stretchH: 'all',
+            height: '400px',
+            licenseKey: 'non-commercial-and-evaluation',
+        });
+    }
+
+    // Open modal
+    function openPreview() {
+        modal.style.display = 'flex';
+        populateFileSelect();
+    }
+
+    // Close modal
+    function closeModalHandler() {
+        modal.style.display = 'none';
+    }
+
+    // Populate file dropdown
+    function populateFileSelect() {
+        fileSelect.innerHTML = '';
+        Object.keys(fileData).forEach((filename, index) => {
+            const option = document.createElement('option');
+            option.value = filename;
+            option.textContent = filename;
+            if (index === 0) option.selected = true; // Select first file by default
+            fileSelect.appendChild(option);
+        });
+        populateSheetSelect();
+    }
+
+    // Populate sheet dropdown
+    function populateSheetSelect() {
+        const selectedFile = fileSelect.value;
+        const sheets = fileData[selectedFile].sheetNames;
+        sheetSelect.innerHTML = '';
+        sheets.forEach((sheet, index) => {
+            const option = document.createElement('option');
+            option.value = sheet;
+            option.textContent = sheet;
+            if (index === 0) option.selected = true; // Select first sheet by default
+            sheetSelect.appendChild(option);
+        });
+        displaySheetData();
+    }
+
+    // Display selected sheet data
+    function displaySheetData() {
+        const selectedFile = fileSelect.value;
+        const selectedSheet = sheetSelect.value;
+        const data = fileData[selectedFile].sheets[selectedSheet];
+        initHandsontable(data);
+    }
+
+    // Handle file reading and data extraction
+    function handleFiles(files) {
+        fileData = {}; // Reset file data
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const sheets = workbook.SheetNames;
+                const sheetData = {};
+                sheets.forEach(sheetName => {
+                    sheetData[sheetName] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, blankrows: true, defval: '' });
+                });
+                fileData[file.name] = { sheetNames: sheets, sheets: sheetData };
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    // Event listeners
+    inputFiles.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
+
+    previewButton.addEventListener('click', () => {
+        if (Object.keys(fileData).length > 0) {
+            openPreview();
+        } else {
+            alert('Please select files first.');
+        }
+    });
+
+    closeModal.addEventListener('click', closeModalHandler);
+
+    fileSelect.addEventListener('change', populateSheetSelect);
+    sheetSelect.addEventListener('change', displaySheetData);
+</script>
+
+</body>
+</html>

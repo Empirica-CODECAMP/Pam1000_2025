@@ -1,0 +1,107 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Stress Level</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Select Stress Level</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <label for="stress">Stress Level:</label>
+        <select name="stress" id="stress" class="form-select">
+            {% for stress in available_stress_levels %}
+                <option value="{{ stress }}">{{ stress }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+
+</div>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Stress Level</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        .form-select, .btn {
+            transition: all 0.3s ease;
+        }
+
+        .form-select:hover, .form-select:focus {
+            border-color: #3498db;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Select Stress Level</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="stress" class="form-label">Stress Level:</label>
+            <select name="stress" id="stress" class="form-select">
+                {% for stress in available_stress_levels %}
+                    <option value="{{ stress }}">{{ stress }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn mt-3">Submit</button>
+    </form>
+</div>
+</body>
+</html>

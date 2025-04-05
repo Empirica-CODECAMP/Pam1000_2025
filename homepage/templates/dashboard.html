@@ -1,0 +1,162 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashflow Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #0a74da;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .chart {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/">
+
+        <h1>Cashflow Dashboard</h1>
+    </a>
+    <div class="container">
+
+        <!-- Line Chart -->
+        <div class="chart">
+            <h3>Cashflow Trends</h3>
+            {{ line_chart|safe }}
+        </div>
+        <!-- Bar Chart -->
+        <div class="chart">
+            <h3>Total Amounts by Metric</h3>
+            {{ bar_chart|safe }}
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="chart">
+            <h3>Proportional Distribution</h3>
+            {{ pie_chart|safe }}
+        </div>
+
+        <!-- Scatter Plot -->
+        <div class="chart">
+            <h3>Stacked Area Chart</h3>
+            {{ stacked_area_chart|safe }}
+        </div>
+    </div>
+</body>
+
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashflow Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="/static/start.css">
+    <style>
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #2e7d32; /* Matches the navbar background */
+            color: #fff;
+            margin-bottom: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .chart {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chart:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .chart h3 {
+            font-size: 1.5rem;
+            color: #388e3c; /* Matches the green tones in your styles */
+            margin-bottom: 15px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/">
+        <h1>Cashflow Dashboard</h1>
+    </a>
+    <div class="container">
+        <!-- Line Chart -->
+        <div class="chart">
+            <h3>Cashflow Trends</h3>
+            {{ line_chart|safe }}
+        </div>
+        <!-- Bar Chart -->
+        <div class="chart">
+            <h3>Total Amounts by Metric</h3>
+            {{ bar_chart|safe }}
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="chart">
+            <h3>Proportional Distribution</h3>
+            {{ pie_chart|safe }}
+        </div>
+
+        <!-- Scatter Plot -->
+        <div class="chart">
+            <h3>Stacked Area Chart</h3>
+            {{ stacked_area_chart|safe }}
+        </div>
+    </div>
+</body>
+
+</html>

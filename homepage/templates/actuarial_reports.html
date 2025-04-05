@@ -1,0 +1,266 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/actuarial_reports.css">
+    <title>Actuarial Reports</title>
+</head>
+
+<body>
+    <h1>Actuarial Reports</h1>
+
+    <!-- Form for selecting a main folder -->
+    <form action="/actuarial_reports/" method="post">
+        {% csrf_token %}
+        <label for="folder">Choose a folder:</label>
+        <select name="folder" id="folder" required>
+            {% for folder in folders %}
+                <option value="{{ folder }}" {% if folder == selected_folder %} selected {% endif %}>{{ folder }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Next Step">
+    </form>
+
+    <!-- Form for selecting a portfolio if a folder is selected -->
+    {% if selected_folder %}
+    <form action="/actuarial_reports/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="folder" value="{{ selected_folder }}">
+        <label for="portfolio">Choose a Portfolio:</label>
+        <select name="portfolio" id="portfolio" required>
+            {% for item in portfolio_contents %}
+                <option value="{{ item }}" {% if item == portfolio_dir %} selected {% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Next Step">
+    </form>
+    {% endif %}
+
+    <!-- Form for selecting stress if a portfolio is selected -->
+    {% if portfolio_dir %}
+    <form action="/actuarial_reports/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="folder" value="{{ selected_folder }}">
+        <input type="hidden" name="portfolio" value="{{ portfolio_dir }}">
+        <label for="stress">Choose a Stress:</label>
+        <select name="stress" id="stress" required>
+            {% for item in stress_contents %}
+                <option value="{{ item }}" {% if item == stress_dir %} selected {% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Next Step">
+    </form>
+    {% endif %}
+
+    <!-- Form for selecting cashflow if a stress is selected -->
+    {% if stress_dir %}
+    <form action="/actuarial_reports/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="folder" value="{{ selected_folder }}">
+        <input type="hidden" name="portfolio" value="{{ portfolio_dir }}">
+        <input type="hidden" name="stress" value="{{ stress_dir }}">
+        <label for="cashflow">Choose a Cashflow:</label>
+        <select name="cashflow" id="cashflow" required>
+            {% for item in cashflow_contents %}
+                <option value="{{ item }}" {% if item == cashflow_dir %} selected {% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Next Step">
+    </form>
+    {% endif %}
+
+    <!-- Form for selecting files if cashflow is selected -->
+    {% if cashflow_dir %}
+    <form action="/actuarial_reports/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="folder" value="{{ selected_folder }}">
+        <input type="hidden" name="portfolio" value="{{ portfolio_dir }}">
+        <input type="hidden" name="stress" value="{{ stress_dir }}">
+        <input type="hidden" name="cashflow" value="{{ cashflow_dir }}">
+        <label for="files">Choose a file:</label>
+        <select name="files" id="files" required>
+            {% for item in output_contents %}
+                <option value="{{ item }}" {% if item == output_dir %} selected {% endif %}>{{ item }}</option>
+            {% endfor %}
+            {% for item in reports_contents %}
+                <option value="{{ item }}" {% if item == reports_dir %} selected {% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Next Step">
+    </form>
+    {% endif %}
+
+</body>
+
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actuarial Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #2a9d8f;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        select:focus {
+            border-color: #2a9d8f;
+            box-shadow: 0 0 8px rgba(42, 157, 143, 0.2);
+        }
+
+        .btn-submit {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #2a9d8f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #21867a;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Actuarial Reports</h1>
+
+    <div class="form-container">
+        <!-- Form for selecting a main folder -->
+        <form action="/actuarial_reports/" method="post">
+            {% csrf_token %}
+            <label for="folder">Choose a folder:</label>
+            <select name="folder" id="folder" required>
+                {% for folder in folders %}
+                    <option value="{{ folder }}" {% if folder == selected_folder %} selected {% endif %}>{{ folder }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-submit">Next Step</button>
+        </form>
+
+        {% if selected_folder %}
+        <!-- Form for selecting a portfolio -->
+        <form action="/actuarial_reports/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="folder" value="{{ selected_folder }}">
+            <label for="portfolio">Choose a Portfolio:</label>
+            <select name="portfolio" id="portfolio" required>
+                {% for item in portfolio_contents %}
+                    <option value="{{ item }}" {% if item == portfolio_dir %} selected {% endif %}>{{ item }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-submit">Next Step</button>
+        </form>
+        {% endif %}
+
+        {% if portfolio_dir %}
+        <!-- Form for selecting stress -->
+        <form action="/actuarial_reports/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="folder" value="{{ selected_folder }}">
+            <input type="hidden" name="portfolio" value="{{ portfolio_dir }}">
+            <label for="stress">Choose a Stress:</label>
+            <select name="stress" id="stress" required>
+                {% for item in stress_contents %}
+                    <option value="{{ item }}" {% if item == stress_dir %} selected {% endif %}>{{ item }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-submit">Next Step</button>
+        </form>
+        {% endif %}
+
+        {% if stress_dir %}
+        <!-- Form for selecting cashflow -->
+        <form action="/actuarial_reports/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="folder" value="{{ selected_folder }}">
+            <input type="hidden" name="portfolio" value="{{ portfolio_dir }}">
+            <input type="hidden" name="stress" value="{{ stress_dir }}">
+            <label for="cashflow">Choose a Cashflow:</label>
+            <select name="cashflow" id="cashflow" required>
+                {% for item in cashflow_contents %}
+                    <option value="{{ item }}" {% if item == cashflow_dir %} selected {% endif %}>{{ item }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-submit">Next Step</button>
+        </form>
+        {% endif %}
+
+        {% if cashflow_dir %}
+        <!-- Form for selecting files -->
+        <form action="/actuarial_reports/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="folder" value="{{ selected_folder }}">
+            <input type="hidden" name="portfolio" value="{{ portfolio_dir }}">
+            <input type="hidden" name="stress" value="{{ stress_dir }}">
+            <input type="hidden" name="cashflow" value="{{ cashflow_dir }}">
+            <label for="files">Choose a file:</label>
+            <select name="files" id="files" required>
+                {% for item in output_contents %}
+                    <option value="{{ item }}" {% if item == output_dir %} selected {% endif %}>{{ item }}</option>
+                {% endfor %}
+                {% for item in reports_contents %}
+                    <option value="{{ item }}" {% if item == reports_dir %} selected {% endif %}>{{ item }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-submit">Next Step</button>
+        </form>
+        {% endif %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Actuarial Reports</title>
+</head>
+<body>
+    <h1>Available Actuarial Reports</h1>
+
+    <ul>
+    {% for report in actuarial_reports %}
+        <li>
+            <strong>{{ report.title }}</strong> - Uploaded on {{ report.created_at }}
+            <br>
+            <a href="{{ report.file.url }}">Download Report</a>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

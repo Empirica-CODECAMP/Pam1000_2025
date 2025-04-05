@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashflow Metrics</title>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; background: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        .hot-table { margin: 20px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Cashflow Metrics</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="stress">Select Stress Level:</label>
+        <select name="stress" id="stress">
+            {% for stress in available_stress_levels %}
+                <option value="{{ stress }}" {% if stress == selected_stress %}selected{% endif %}>
+                    {{ stress }}
+                </option>
+            {% endfor %}
+        </select>
+        <label for="year">Select Year:</label>
+        <select name="year" id="year">
+            {% for year in "2023 2024".split %}
+                <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>
+                    {{ year }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+    </form>
+
+    {% for category, data in [('IF', if_data), ('NB', nb_data)] %}
+        {% if data %}
+            <h2>{{ category }} Data</h2>
+            <ul>
+                {% for sub_category, files in data.items %}
+                    <li><strong>{{ sub_category }}</strong></li>
+                    <ul>
+                        {% for file, path in files.items %}
+                            <li>
+                                {{ file }}
+                                <button class="btn btn-sm btn-primary preview-btn" data-file="{{ path }}">Preview</button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">File Preview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="preview-table" class="hot-table"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.preview-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const filePath = button.getAttribute('data-file');
+                console.log(`Previewing file: ${filePath}`); // Debugging log
+
+                fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ action: 'preview', file_path: filePath })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('File data received:', data.data); // Debugging log
+                        const container = document.getElementById('preview-table');
+                        container.innerHTML = ''; // Clear previous content
+
+                        new Handsontable(container, {
+                            data: data.data,
+                            colHeaders: true,
+                            rowHeaders: true,
+                            filters: true,
+                            dropdownMenu: true,
+                            stretchH: 'all',
+                            licenseKey: 'non-commercial-and-evaluation'
+                        });
+
+                        const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+                        previewModal.show();
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during preview:', error);
+                    alert('An unexpected error occurred. Check the console for details.');
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

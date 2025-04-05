@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Stress Dashboard - {{ stress }}</h1>
+    <!-- CSRF Token -->
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <!-- Dropdown to select files -->
+    <div class="mb-3">
+        <label for="file-select" class="form-label">Select File for Dashboard</label>
+        <select id="file-select" class="form-select">
+            <option value="" disabled selected>Select a file</option>
+            {% for sub_category, files in if_data.items %}
+                <optgroup label="IF - {{ sub_category }}">
+                    {% for file_name, file_path in files.items %}
+                        <option value="{{ file_path }}">{{ file_name }}</option>
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+            {% for sub_category, files in nb_data.items %}
+                <optgroup label="NB - {{ sub_category }}">
+                    {% for file_name, file_path in files.items %}
+                        <option value="{{ file_path }}">{{ file_name }}</option>
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Generate Dashboard Button -->
+    <button id="generate-dashboard" class="btn btn-primary mt-2">Generate Dashboard</button>
+    <a href="/file_list/{{ stress }}/" class="btn btn-secondary mt-3">Back to File List</a>
+</div>
+
+<div id="alert-container" class="mt-4"></div>
+<div id="dashboard-container" class="mt-4">
+    <p id="loading-message" style="display:none;" class="text-center text-info">Generating dashboard, please wait...</p>
+    <img id="bar-chart-img" src="" alt="Aggregated Values Bar Chart" style="display:none; max-width:100%; margin-bottom:20px;" />
+    <img id="heatmap-img" src="" alt="Correlation Heatmap" style="display:none; max-width:100%; margin-bottom:20px;" />
+    <img id="line-chart-img" src="" alt="Line Chart" style="display:none; max-width:100%; margin-bottom:20px;" />
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('generate-dashboard').addEventListener('click', function () {
+        const filePath = document.getElementById('file-select').value;
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        if (filePath) {
+            document.getElementById('loading-message').style.display = 'block';
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: `file_path=${encodeURIComponent(filePath)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading-message').style.display = 'none';
+                if (data.status === 'success') {
+                    document.getElementById('heatmap-img').src = data.heatmap_url;
+                    document.getElementById('heatmap-img').style.display = 'block';
+                    document.getElementById('line-chart-img').src = data.line_chart_url;
+                    document.getElementById('line-chart-img').style.display = 'block';
+                    document.getElementById('bar-chart-img').src = data.bar_chart_url;
+                    document.getElementById('bar-chart-img').style.display = 'block';
+                } else {
+                    document.getElementById('alert-container').innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                }
+            })
+            .catch(err => {
+                document.getElementById('loading-message').style.display = 'none';
+                document.getElementById('alert-container').innerHTML = `<div class="alert alert-danger">An unexpected error occurred.</div>`;
+            });
+        } else {
+            document.getElementById('alert-container').innerHTML = `<div class="alert alert-warning">Please select a file.</div>`;
+        }
+    });
+</script>
+</body>

@@ -1,0 +1,43 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+<!--
+{% block title %}
+    Insurance Dashboard | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            {{ site_header|default:_('Insurance Dashboard') }}
+        </a>
+    </h1>
+{% endblock %}
+ -->
+{% block content %}
+    <!-- <h1>Insurance Dashboard</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %} -->
+
+    <div>
+        <h2>Line Chart: Financial Metrics Over Time</h2>
+        <!-- Display the first Plotly chart -->
+        <div>{{ chart|safe }}</div>
+    </div>
+
+    <div>
+        <h2>Bar Chart: Financial Metrics</h2>
+        <!-- Display the second Plotly chart -->
+        <div>{{ chart2|safe }}</div>
+    </div>
+
+    <div>
+        <h2>Histogram: Distribution of Financial Metrics</h2>
+        <!-- Display the third Plotly chart -->
+        <div>{{ chart3|safe }}</div>
+    </div>
+{% endblock %}

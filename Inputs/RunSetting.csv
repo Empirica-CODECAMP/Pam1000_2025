@@ -1,0 +1,14 @@
+﻿id,PrevRun_Nr,NBRun_Nr,Run_Nr,Run_Description,ForwardInterestRatesName_IFstart,ForwardInterestRatesName_IFend,ForwardInterestRatesName_NB,EconomicAssumptionsName,RiskAdj,RiskAdjustmentFac,IncurredAcqCotsPeriod,
+1,2017,2017,2017,IFRS 17 calculations,Forw_2017.csv,Forw_2017.csv,Forw_2017.csv,Economic.csv,Percentage,0.06,4,Percentage
+2,2017,2018,2018,IFRS 17 calculations,Forw_2018.csv,Forw_2018.csv,Forw_2017.csv,Economic.csv,Percentage,0.06,12,Formula
+3,2018,2019,2019,IFRS 17 calculations,Forw_2019.csv,Forw_2019.csv,Forw_2018.csv,Economic.csv,Percentage,0.06,12,
+4,2019,2020,2020,IFRS 17 calculations,Forw_2020.csv,Forw_2020.csv,Forw_2019.csv,Economic.csv,Percentage,0.06,12,
+5,2020,2021,2021,IFRS 17 calculations,Forw_2021.csv,Forw_2021.csv,Forw_2020.csv,Economic.csv,Percentage,0.06,12,
+6,2021,2022,2022,IFRS 17 calculations,Forw_2022.csv,Forw_2022.csv,Forw_2021.csv,Economic.csv,Percentage,0.06,12,
+7,2022,2023,2023,IFRS 17 calculations,Forw_2023.csv,Forw_2023.csv,Forw_2022.csv,Economic.csv,Percentage,0.06,12,
+8,2023,202309,202309,IFRS 17 calculations,Forw_2023.csv,Forw_2023.csv,Forw_2022.csv,Economic.csv,Percentage,0.06,12,
+9,2023,2024,2024,IFRS 17 calculations,Forw_2023.csv,Forw_2023.csv,Forw_2023.csv,Economic.csv,Percentage,0.06,13,
+10,2024,2025,2025,IFRS 17 calculations,Forw_2023.csv,Forw_2023.csv,Forw_2023.csv,Economic.csv,Percentage,0.06,14,
+11,2025,2026,2026,IFRS 17 calculations,Forw_2023.csv,Forw_2023.csv,Forw_2023.csv,Economic.csv,Percentage,0.06,15,
+12,2026,2027,2027,IFRS 17 calculations,Forw_2023.csv,Forw_2023.csv,Forw_2023.csv,Economic.csv,Percentage,0.06,16,
+13,2027,2028,2028,IFRS 17 calculations,Forw_2023.csv,Forw_2023.csv,Forw_2023.csv,Economic.csv,Percentage,0.06,17,

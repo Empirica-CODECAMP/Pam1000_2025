@@ -6,45 +6,97 @@
     <title>Edit Inputs</title>
     <style>
         body {
-            background-color: #e0f7e0; /* Light green background */
-            color: #2f4f2f; /* Dark green text */
+            background-color: #f9f9f9;
             font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #28a745;
+            margin-bottom: 15px;
+            font-size: 20px;
         }
 
         form {
-            background-color: #d4edda; /* Light green form background */
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 12px;
+            margin: 0 auto 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-width: 600px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         label {
+            display: block;
             font-weight: bold;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        select, button, input[type="checkbox"] {
+            font-size: 13px;
         }
 
         select, button {
-            margin-top: 5px;
-            padding: 5px;
-            border: 1px solid #2f4f2f; /* Dark green border */
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
             border-radius: 3px;
+            margin-bottom: 10px;
         }
 
-        a {
-            color: #2f4f2f; /* Dark green link color */
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        button#select-all-btn {
+            background-color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        button#select-all-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .file-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .file-checkbox label {
+            font-weight: normal;
+            margin-left: 5px;
+        }
+
+        .file-checkbox a {
+            color: #28a745;
             text-decoration: none;
+            font-size: 13px;
         }
 
-        a:hover {
+        .file-checkbox a:hover {
             text-decoration: underline;
-        }
-
-        input[type="checkbox"] {
-            margin-right: 5px;
         }
     </style>
 </head>
 <body>
+
+    <h1>Edit Input Files</h1>
+
     <!-- Stress Folder Selection -->
     <form method="POST">
         {% csrf_token %}
@@ -56,7 +108,7 @@
                 </option>
             {% endfor %}
         </select>
-        <button type="submit">Submit</button>
+        <button type="submit">Load Files</button>
     </form>
 
     <!-- File Selection and Actions -->
@@ -68,26 +120,28 @@
             <option value="delete">Delete</option>
             <option value="download">Download</option>
         </select>
+
         <input type="hidden" name="stress_folder" value="{{ stress_folder }}">
         <button type="submit">Submit</button>
-        
-        <button type="button" id="select-all-btn">Select All</button>
-        <label for="files">Select Files:</label><br>
+        <button type="button" id="select-all-btn">Select All / Unselect All</button>
+
+        <label>Select Files:</label>
         {% for file in files %}
+        <div class="file-checkbox">
             <input type="checkbox" name="selected_files" value="{{ file }}" id="{{ file }}">
             <label for="{{ file }}">
                 <a href="{% url 'view_file' stress=stress_folder file_path=file %}" target="_blank">{{ file }}</a>
-            </label><br>
+            </label>
+        </div>
         {% endfor %}
     </form>
     {% endif %}
 
     <script>
-        document.getElementById('select-all-btn').addEventListener('click', function() {
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            var allSelected = Array.from(checkboxes).every(cb => cb.checked);
-
-            checkboxes.forEach(cb => cb.checked = !allSelected);
+        document.getElementById('select-all-btn').addEventListener('click', function () {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            checkboxes.forEach(cb => cb.checked = !allChecked);
         });
     </script>
 </body>

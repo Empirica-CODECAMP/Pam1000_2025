@@ -17,6 +17,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      font-size: 12px; /* Set default font size smaller */
     }
 
     form {
@@ -25,15 +26,13 @@
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       width: 320px;
-      /* Adjusted width for better layout */
       box-sizing: border-box;
-      /* Ensures padding and border are included in the width */
+      font-size: 12px; /* Smaller text inside form */
     }
 
     form h2 {
       margin-bottom: 20px;
-      font-size: 20px;
-      /* Slightly larger font size for heading */
+      font-size: 14px;
       color: #555;
       text-align: center;
     }
@@ -41,7 +40,7 @@
     label {
       display: block;
       margin-bottom: 8px;
-      font-size: 14px;
+      font-size: 12px;
       color: #666;
     }
 
@@ -49,18 +48,13 @@
     input[type="number"],
     select {
       width: 90%;
-      padding: 10px;
-      /* Slightly more padding for a softer feel */
+      padding: 8px;
       margin-bottom: 15px;
-      font-size: 14px;
+      font-size: 12px;
       color: #333;
-      /* Dark text color */
       border: 1px solid #66bb6a;
-      /* Light green border */
       border-radius: 5px;
-      /* Rounded corners */
       background-color: #f4f9f4;
-      /* Very light green background */
       outline: none;
       transition: border-color 0.3s ease, background-color 0.3s ease;
     }
@@ -69,34 +63,28 @@
     input[type="text"]:focus,
     select:focus {
       border-color: #2e7d32;
-      /* Dark green border when focused */
       background-color: #e8f4e1;
-      /* Light green background when focused */
     }
 
     button {
       width: 100%;
-      padding: 10px;
+      padding: 8px;
       background-color: #4caf50;
-      /* Green background color */
       color: #fff;
-      /* White text color */
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 12px;
       font-weight: bold;
       transition: background-color 0.3s ease;
     }
 
     button:hover {
       background-color: #388e3c;
-      /* Darker green on hover */
     }
 
     button:active {
       background-color: #2e7d32;
-      /* Deep green when pressed */
     }
   </style>
 </head>
@@ -121,7 +109,6 @@
     <select id="category" name="category">
       <option value="IF">In-Force</option>
       <option value="NB">New Business</option>
-
     </select>
 
     <label for="group">Group</label>

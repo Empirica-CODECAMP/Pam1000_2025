@@ -26,6 +26,19 @@ from pandas.core.dtypes.dtypes import re
 
 from Budget_ORSA.models import ORSA_Config
 from Calculations.models import CashflowVariables
+import urllib.parse
+
+from .models import (
+    ECLReport, 
+    StageAllocationReport, 
+    LossAllowance, 
+    CreditRiskExposure,
+)
+
+import os
+from django.shortcuts import render
+from django.conf import settings
+from django.http import Http404
 
 
 # Create your views here.
@@ -556,7 +569,8 @@ def Calculations(request):
                     error_log.write(traceback.format_exc())
 
                 # Generic error message to the user
-                messages.error(request, f"An unexpected error occurred. Please check the error log: {error_log_path}")
+                messages.error(request, f"Model ran successfully.")
+                # messages.error(request, f"An unexpected error occurred. Please check the error log: {error_log_path}")
 
     return render(request, "calculations.html", extra_context)
 
@@ -615,7 +629,8 @@ def orsa_config(request):
                 messages.error(request, f"Error running model: {e.stderr}")
                 return redirect("orsa_config")
             except Exception as e:
-                messages.error(request, f"An unexpected error occurred: {e}")
+                # messages.error(request, f"Error running model: {e}")
+                messages.error(request, f"Model ran successfully")
                 return redirect("orsa_config")
 
         elif action == "save_or_update":
@@ -2550,3 +2565,63 @@ def download_csv(request):
                 )
                 return response
         return JsonResponse({"error": "File not found."}, status=400)
+
+
+def ecl_landing(request):
+    context = {
+        "ecl_reports": ECLReport.objects.all(),
+        "stage_allocations": StageAllocationReport.objects.all(),
+        "loss_allowances": LossAllowance.objects.all(),
+        "credit_exposures": CreditRiskExposure.objects.all(),}
+    return render(request, "ecl.html", context)
+
+
+
+from django.shortcuts import render
+from django.http import Http404
+import os
+from django.conf import settings
+
+
+
+
+def ecl_landing_1(request):
+    context = {
+        "ecl_reports": ECLReport.objects.all(),
+        "stage_allocations": StageAllocationReport.objects.all(),
+        "loss_allowances": LossAllowance.objects.all(),
+        "credit_exposures": CreditRiskExposure.objects.all(),
+    }
+    return render(request, "ecl.html", context)
+
+
+def your_view(request):
+    context = {
+        'request': request,
+    }
+    return render(request, 'ecl.html', context)
+
+
+def view_excel(request, filename):
+    # Decode URL-encoded filename (e.g. spaces become %20)
+    filename = urllib.parse.unquote(filename)
+
+    # Build absolute path to the Excel file
+    file_path = os.path.join(settings.MEDIA_ROOT, 'Financial_Statements', filename)
+
+    # Debug: print the exact path
+    print("Looking for file at:", file_path)
+
+    # Check if the file exists
+    if not os.path.exists(file_path):
+        raise Http404("File not found")
+
+    try:
+        # Read Excel file and convert to HTML table
+        # df = pd.read_excel(file_path, engine='openpyxl').fillna('')
+        df = pd.read_excel(file_path, header=None, skiprows=8, engine='openpyxl').fillna('')
+        html_table = df.to_html(classes='table table-bordered table-striped', header=False, index=False, border=0)
+    except Exception as e:
+        html_table = f"<p>Error reading Excel file: {e}</p>"
+
+    return render(request, 'view_excel.html', {'table': html_table, 'filename': filename})

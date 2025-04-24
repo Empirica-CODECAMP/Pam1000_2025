@@ -1,0 +1,224 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Fin Statements{% endblock %}
+
+{% block content %}
+<!-- <h1>Financial Statements</h1>
+<head>
+  <title>PAM 1000</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+      font-weight: normal;
+    }
+
+    .search-bar {
+      margin-bottom: 30px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .menu-item {
+      padding: 8px 0;
+      font-size: 15px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .menu-item:hover {
+      color: #000;
+    }
+
+    .divider {
+      border-top: 1px solid #eee;
+      margin: 20px 0;
+    }
+
+    .sub-section {
+      margin-top: 25px;
+    }
+
+    .sub-section-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .option-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .option-list li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+    }
+
+    .btn-download {
+      background-color: #333;
+    }
+
+    .btn-view {
+      background-color: #007bff;
+    }
+
+    .btn i {
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <div class="section-title">Financial Statements</div>
+    <div class="menu-item">
+      <span>Actuarial ORSA Reports</span>
+      <div class="buttons">
+        <a href="/media/Financial_Statements/Actuarial ORSA  Reports.xlsm" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="/media/Financial_Statements/Actuarial ORSA  Reports.xlsm" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <span>ORSA Disclosures</span>
+      <div class="buttons">
+        <a href="media/Financial_Statements/ORSA Disclosures .xlsm" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="media/Financial_Statements/ORSA Disclosures .xlsm" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <span>PAA_I_Disclosure</span>
+      <div class="buttons">
+        <a href="media/Financial_Statements/PAA_I_Disclosures.xlsx" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="media/Financial_Statements/PAA_I_Disclosures.xlsx" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <span>PAA_R_Disclosure</span>
+      <div class="buttons">
+        <a href="media/Financial_Statements/PAA_R_Disclosures.xlsx" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="media/Financial_Statements/PAA_R_Disclosures.xlsx" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <span>Reports</span>
+      <div class="buttons">
+        <a href="media/Financial_Statements/Reports.xlsx" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="media/Financial_Statements/Reports.xlsx" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <span>TB and Subledger Reports</span>
+      <div class="buttons">
+        <a href="media/Financial_Statements/TB_and_Subledger_Report.xlsx" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="media/Financial_Statements/TB_and_Subledger_Report.xlsx" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <span>PAA Financials - SOFP</span>
+      <div class="buttons">
+        <a href="media/Financial_Statements/PAA Financials - SOFP (1).xlsx" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="media/Financial_Statements/PAA Financials - SOFP (1).xlsx" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,17 +12,19 @@
             padding: 0;
             background-color: #f9f9f9;
             color: #333;
+            font-size: 14px;
         }
 
         h1 {
             text-align: center;
             color: #28a745;
             margin: 20px 0;
+            font-size: 22px;
         }
 
         #messages {
-            width: 80%;
-            margin: 20px auto;
+            width: 75%;
+            margin: 15px auto;
         }
 
         #messages p {
@@ -32,22 +34,24 @@
             padding: 10px;
             border-radius: 5px;
             margin: 5px 0;
+            font-size: 13.5px;
         }
 
         form {
             background-color: #fff;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 6px;
             padding: 20px;
-            width: 80%;
-            margin: 10px auto;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 75%;
+            margin: 15px auto;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
         }
 
         label {
             display: block;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 14px;
         }
 
         select,
@@ -56,7 +60,7 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            font-size: 14px;
+            font-size: 13.5px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
@@ -66,11 +70,17 @@
             color: white;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.2s ease;
+            font-size: 14px;
+            text-transform: uppercase;
         }
 
         button:hover {
             background-color: #218838;
+        }
+
+        button:active {
+            transform: translateY(1px);
         }
     </style>
 </head>
@@ -78,7 +88,6 @@
 <body>
     <h1>Run Model</h1>
 
-    <!-- Display messages -->
     {% if messages %}
     <div id="messages">
         {% for message in messages %}
@@ -90,7 +99,6 @@
     <form action="/calculations/" method="post">
         {% csrf_token %}
 
-        <!-- RunNr Dropdown -->
         <label for="RunNr">Run Number:</label>
         <select name="RunNr" id="RunNr">
             {% for i in years %}
@@ -98,7 +106,6 @@
             {% endfor %}
         </select>
 
-        <!-- NBRunNr Dropdown -->
         <label for="NBRunNr">NB Run Number:</label>
         <select name="NBRunNr" id="NBRunNr">
             {% for i in years %}
@@ -106,7 +113,6 @@
             {% endfor %}
         </select>
 
-        <!-- PrevRunNr Dropdown -->
         <label for="PrevRunNr">Previous Run Number:</label>
         <select name="PrevRunNr" id="PrevRunNr">
             {% for i in years %}
@@ -114,7 +120,6 @@
             {% endfor %}
         </select>
 
-        <!-- Submit Button -->
         <button type="submit">Run Model</button>
     </form>
 </body>

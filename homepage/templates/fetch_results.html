@@ -1,214 +1,3 @@
-{% comment %} <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch Results</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-
-<body>
-    <div class="container">
-        <h1>Select Your Files</h1>
-
-        <form id="file-selection-form">
-            <!-- Folder Selection -->
-            <label for="folder">Select Folder:</label>
-            <select name="folder" id="folder" onchange="updatePortfolio()">
-                <option value="">-- Select Folder --</option>
-                {% for folder in folders %}
-                <option value="{{ folder }}">{{ folder }}</option>
-                {% endfor %}
-            </select>
-
-            <!-- Portfolio Selection -->
-            <label for="portfolio">Select Portfolio:</label>
-            <select name="portfolio" id="portfolio" onchange="updateStress()">
-                <option value="">-- Select Portfolio --</option>
-            </select>
-
-            <!-- Stress Selection -->
-            <label for="stress">Select Stress:</label>
-            <select name="stress" id="stress" onchange="updateResults()">
-                <option value="">-- Select Stress --</option>
-            </select>
-
-            <!-- Results Selection -->
-            <label for="results">Select Results:</label>
-            <select name="results" id="results" onchange="updateFiles()">
-                <option value="">-- Select Result --</option>
-            </select>
-
-            <!-- Files Selection -->
-            <label for="files">Select Files:</label>
-            <select name="files" id="files">
-                <option value="">-- Select File --</option>
-            </select>
-
-            <!-- Submit Button -->
-            <button type="button" onclick="fetchSelectedFile()">Fetch Results</button>
-        </form>
-
-        <!-- Display Errors -->
-        <div id="error-message" style="color: red; margin-top: 10px;"></div>
-    </div>
-
-    <script>
-        function updatePortfolio() {
-            const folder = document.getElementById('folder').value;
-            $.ajax({
-                url: "{% url 'fetch_results' %}",
-                type: 'POST',
-                data: {
-                    'folder': folder,
-                    'action': 'get_portfolios',
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function (data) {
-                    let portfolioSelect = document.getElementById('portfolio');
-                    portfolioSelect.innerHTML = '<option value="">-- Select Portfolio --</option>';
-                    data.portfolios.forEach(function (portfolio) {
-                        portfolioSelect.innerHTML += `<option value="${portfolio}">${portfolio}</option>`;
-                    });
-                    document.getElementById('stress').innerHTML = '<option value="">-- Select Stress --</option>';
-                    document.getElementById('results').innerHTML = '<option value="">-- Select Result --</option>';
-                    document.getElementById('files').innerHTML = '<option value="">-- Select File --</option>';
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching portfolios:", error);
-                }
-            });
-        }
-
-        function updateStress() {
-            const folder = document.getElementById('folder').value;
-            const portfolio = document.getElementById('portfolio').value;
-            $.ajax({
-                url: "{% url 'fetch_results' %}",
-                type: 'POST',
-                data: {
-                    'folder': folder,
-                    'portfolio': portfolio,
-                    'action': 'get_stresses',
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function (data) {
-                    let stressSelect = document.getElementById('stress');
-                    stressSelect.innerHTML = '<option value="">-- Select Stress --</option>';
-                    data.stresses.forEach(function (stress) {
-                        stressSelect.innerHTML += `<option value="${stress}">${stress}</option>`;
-                    });
-                    document.getElementById('results').innerHTML = '<option value="">-- Select Result --</option>';
-                    document.getElementById('files').innerHTML = '<option value="">-- Select File --</option>';
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching stresses:", error);
-                }
-            });
-        }
-
-        function updateResults() {
-            const folder = document.getElementById('folder').value;
-            const portfolio = document.getElementById('portfolio').value;
-            const stress = document.getElementById('stress').value;
-
-            $.ajax({
-                url: "{% url 'fetch_results' %}",
-                type: 'POST',
-                data: {
-                    'folder': folder,
-                    'portfolio': portfolio,
-                    'stress': stress,
-                    'action': 'get_results',
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function (data) {
-                    let resultsSelect = document.getElementById('results');
-                    resultsSelect.innerHTML = '<option value="">-- Select Result --</option>';
-                    data.results.forEach(function (result) {
-                        resultsSelect.innerHTML += `<option value="${result}">${result}</option>`;
-                    });
-                    document.getElementById('files').innerHTML = '<option value="">-- Select File --</option>';
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching results:", error);
-                }
-            });
-        }
-
-        function updateFiles() {
-            const folder = document.getElementById('folder').value;
-            const portfolio = document.getElementById('portfolio').value;
-            const stress = document.getElementById('stress').value;
-            const results = document.getElementById('results').value;
-
-            $.ajax({
-                url: "{% url 'fetch_results' %}",
-                type: 'POST',
-                data: {
-                    'folder': folder,
-                    'portfolio': portfolio,
-                    'stress': stress,
-                    'results': results,
-                    'action': 'get_files',
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function (data) {
-                    let filesSelect = document.getElementById('files');
-                    filesSelect.innerHTML = '<option value="">-- Select File --</option>';
-                    data.files.forEach(function (file) {
-                        filesSelect.innerHTML += `<option value="${file}">${file}</option>`;
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching files:", error);
-                }
-            });
-        }
-        function fetchSelectedFile() {
-            const folder = document.getElementById('folder').value;
-            const portfolio = document.getElementById('portfolio').value;
-            const stress = document.getElementById('stress').value;
-            const results = document.getElementById('results').value;
-            const fileName = document.getElementById('files').value;
-
-            if (fileName) {
-                $.ajax({
-                    url: "{% url 'fetch_results' %}", // Ensure 'fetch_results' matches your view's URL name in urls.py
-                    type: 'POST',
-                    data: {
-                        'folder': folder,
-                        'portfolio': portfolio,
-                        'stress': stress,
-                        'results': results,
-                        'files': fileName,
-                        'action': 'open_file',
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    },
-                    success: function (response) {
-                        if (response.url) {
-                            window.location.href = response.url; // Redirect to download the file
-                        } else {
-                            document.getElementById('error-message').innerText = "Unexpected response. No URL provided.";
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        document.getElementById('error-message').innerText = "Error fetching file: " + xhr.responseText;
-                    }
-                });
-            } else {
-                alert("Please select a file to open.");
-            }
-        }
-    </script>
-</body>
-
-</html> {% endcomment %}
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -222,6 +11,7 @@
         body {
             background-color: #f4f6f9;
             font-family: 'Arial', sans-serif;
+            font-size: 12px; /* Set font size to 12px for all text */
         }
 
         .container {
@@ -244,6 +34,7 @@
             font-weight: bold;
             color: #555;
             margin-bottom: 10px;
+            font-size: 12px; /* Explicitly set font size for labels */
         }
 
         .form-select,
@@ -255,6 +46,7 @@
         .form-select {
             border-color: #ddd;
             margin-bottom: 20px;
+            font-size: 12px; /* Set font size for select dropdowns */
         }
 
         .form-select:hover,
@@ -287,6 +79,7 @@
             color: red;
             text-align: center;
             margin-top: 20px;
+            font-size: 12px; /* Set font size for error message */
         }
     </style>
 </head>
@@ -449,42 +242,6 @@
                     console.error("Error fetching files:", error);
                 }
             });
-        }
-
-        function fetchSelectedFile() {
-            const folder = document.getElementById('folder').value;
-            const portfolio = document.getElementById('portfolio').value;
-            const stress = document.getElementById('stress').value;
-            const results = document.getElementById('results').value;
-            const fileName = document.getElementById('files').value;
-
-            if (fileName) {
-                $.ajax({
-                    url: "{% url 'fetch_results' %}",
-                    type: 'POST',
-                    data: {
-                        'folder': folder,
-                        'portfolio': portfolio,
-                        'stress': stress,
-                        'results': results,
-                        'files': fileName,
-                        'action': 'open_file',
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    },
-                    success: function (response) {
-                        if (response.url) {
-                            window.location.href = response.url; // Redirect to download the file
-                        } else {
-                            document.getElementById('error-message').innerText = 'Error fetching the file.';
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error fetching file:", error);
-                    }
-                });
-            } else {
-                document.getElementById('error-message').innerText = 'Please select a file.';
-            }
         }
     </script>
 </body>

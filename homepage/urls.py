@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import ecl_landing_1
 
 urlpatterns = [
     path("", views.main_page, name="main_page"),
@@ -39,4 +40,7 @@ urlpatterns = [
     path("test/<str:stress>/", views.test, name="test"),
     path("year_dash/", views.yearly_test, name="yearly_test"),
     path("download_csv/", views.download_csv, name="download_csv"),
+    path('ecl_landing', views.ecl_landing, name='ecl_landing'),
+    path('fin-statements/', views.ecl_landing_1, name='ecl_landing_1'),
+    path('homepage/view_excel/<path:filename>/', views.view_excel, name='view_excel'),
 ]

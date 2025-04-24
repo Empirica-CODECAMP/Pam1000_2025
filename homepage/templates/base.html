@@ -1,0 +1,122 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Financial Statements{% endblock %}</title>
+    <link rel="stylesheet" href="/static/start.css">
+
+    <style>
+        .sidebar {
+            padding: 10px;
+            width: 250px;
+            background-color: #f9f9f9;
+            font-size: 0.7rem; 
+        }
+
+        .sidebar-group {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-heading {
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .dashboard-link {
+            display: block;
+            padding: 8px 10px;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+            font-size: 0.7rem; 
+        }
+
+        .dashboard-link:hover {
+            background-color: #e8f0fe;
+            color: #007bff;
+        }
+
+        .navbar{
+            font-size: 12px;
+        }
+
+        .logo{
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo" onclick="window.location.href='/home'"> EMPIRICA - PAM 1000 (IFRS 17)</div>
+        <div>
+            <a href="/" class="icon">🏠 View Site</a>
+            <a href="/admin/" class="icon">⚙️ Admin</a>
+            <div class="dropdown">
+                <a href="#" class="icon">👤 Profile</a>
+                <div class="dropdown-content">
+                    <a href="#">👤 Username</a>
+                    <a href="#">🔑 Change Password</a>
+                    <a href="#">🚪 Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+     <!-- Main Layout -->
+     <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <input type="text" class="search-bar" placeholder="Search...">
+            <!-- Configuration -->
+            <div class="sidebar-group">
+                <h4 class="sidebar-heading">1. Settings</h4>
+                <a class="direct-link" href="{% url 'fcf_vars_page' %}">📊 FCF Variables</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'cashflow_analysis' %}">📊 Cashflow Config</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'config' %}">🛠️ Configuration</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'orsa_config' %}">🛠️ ORSA Configuration</a>
+            </div>
+            <!-- Analysis -->
+            <div class="sidebar-group">
+                <h4 class="sidebar-heading">2. Analysis</h4>
+                <a href="#" class="dashboard-link" data-src="{% url 'edit_inputs' %}">📊 Edit</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'stress_selection' %}">📊 Cashflow Analysis</a>
+            </div>
+            <!-- Reports -->
+            <div class="sidebar-group">
+                <h4 class="sidebar-heading">3. Reports</h4>
+                <a href="{% url 'ecl_landing_1' %}" class="direct-link">📆 Financial Statements</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'fetch_results' %}">📊 Actuarial Reports</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'prior_reports_page' %}">📝 Prior Reports</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'yearly_test' %}">📆 Year Report</a>
+            </div>
+            <!-- Calculations -->
+            <div class="sidebar-group">
+                <h4 class="sidebar-heading">4. Calculations</h4>
+                <a href="#" class="dashboard-link" data-src="{% url 'calculations' %}">🧮 Calculations</a>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            {% block content %}
+            <!-- Page-specific content goes here -->
+            {% endblock %}
+        </div>
+    </div>
+</body>
+
+</html>

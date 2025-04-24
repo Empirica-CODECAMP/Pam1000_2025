@@ -15,6 +15,7 @@ body {
     background: linear-gradient(to right, #388e3c, #66bb6a); /* Green gradient for a modern touch */
     color: #fff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
 }
 
 .navbar a {

@@ -1,149 +1,3 @@
-{% comment %} <!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Configurations</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 0;
-			background-color: #f9f9f9;
-			color: #333;
-		}
-
-		#messages {
-			width: 80%;
-			margin: 20px auto;
-		}
-
-		.message {
-			padding: 15px;
-			margin: 10px 0;
-			border-radius: 5px;
-			font-size: 14px;
-		}
-
-		.success {
-			background-color: #d4edda;
-			color: #155724;
-			border: 1px solid #c3e6cb;
-		}
-
-		.error {
-			background-color: #f8d7da;
-			color: #721c24;
-			border: 1px solid #f5c6cb;
-		}
-
-		form {
-			background-color: #fff;
-			border: 1px solid #ddd;
-			border-radius: 5px;
-			padding: 20px;
-			width: 80%;
-			margin: 10px auto;
-			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-		}
-
-		label {
-			display: block;
-			font-weight: bold;
-			margin-bottom: 10px;
-		}
-
-		select,
-		input[type="file"],
-		input[type="submit"] {
-			display: block;
-			width: 100%;
-			padding: 10px;
-			margin-bottom: 15px;
-			font-size: 14px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-		}
-
-		input[type="submit"] {
-			background-color: #28a745;
-			color: white;
-			border: none;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
-
-		input[type="submit"]:hover {
-			background-color: #218838;
-		}
-
-		h2 {
-			text-align: center;
-			color: #28a745;
-			margin-top: 20px;
-		}
-	</style>
-</head>
-
-<body>
-
-	<h2>Configurations</h2>
-
-	<!-- Display Messages -->
-	{% if messages %}
-	<div id="messages">
-		{% for message in messages %}
-		<div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
-			{{ message }}
-		</div>
-		{% endfor %}
-	</div>
-	{% endif %}
-
-	<!-- Forward Rate Configuration Form -->
-	<div id="forward_rate">
-		<form action="/configuration/" method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			<label for="forward_rate_stress">Forward Rate Stress:</label>
-			<select name="forward_rate_stress" id="forward_rate_stress">
-				<option value="">-- Select Stress --</option>
-				<option value="Base">Base</option>
-				<option value="Stress1">Stress1</option>
-				<option value="Stress2">Stress2</option>
-				<option value="Stress3">Stress3</option>
-				<option value="Stress4">Stress4</option>
-			</select>
-			<label for="forward_rate_file">Upload Forward Rate File:</label>
-			<input type="file" name="forward_rate_file" id="forward_rate_file">
-			<input type="submit" value="Submit">
-		</form>
-	</div>
-
-	<!-- Input Files Configuration Form -->
-	<div id="input_files">
-		<form action="/configuration/" method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			<label for="input_files_stress">Input Files Stress:</label>
-			<select name="input_files_stress" id="input_files_stress">
-				<option value="">-- Select Stress --</option>
-				<option value="Base">Base</option>
-				<option value="Stress1">Stress1</option>
-				<option value="Stress2">Stress2</option>
-				<option value="Stress3">Stress3</option>
-				<option value="Stress4">Stress4</option>
-			</select>
-			<label for="input_files">Upload Input File:</label>
-			<input type="file" name="input_files" id="input_files">
-			<input type="submit" value="Submit">
-		</form>
-	</div>
-
-</body>
-
-</html> {% endcomment %}
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -154,91 +8,90 @@
 	<style>
 		body {
 			font-family: Arial, sans-serif;
-			background-color: #e6ffe6; /* Light green background */
-			color: #333; /* Neutral text color */
+			background-color: #e6ffe6;
+			color: #333;
 			margin: 0;
-			padding: 20px;
+			padding: 10px;
+			font-size: 12px;
 		}
 
 		h1 {
 			text-align: center;
-			color: #14532d; /* Deep green for headers */
-			margin-bottom: 20px;
+			color: #14532d;
+			font-size: 18px;
+			margin-bottom: 10px;
 		}
 
 		form {
-			max-width: 600px;
-			margin: 0 auto 30px;
-			padding: 20px;
-			background-color: #ffffff; /* White background */
-			border-radius: 10px;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-			transition: transform 0.3s, box-shadow 0.3s;
-		}
-
-		form:hover {
-			transform: translateY(-5px); /* Lift effect */
-			box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Darker shadow */
+			max-width: 450px;
+			margin: 0 auto 20px;
+			padding: 10px;
+			background-color: #ffffff;
+			border-radius: 6px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 		}
 
 		label {
 			display: block;
-			margin: 15px 0 5px;
+			margin: 8px 0 3px;
 			font-weight: bold;
+			font-size: 12px;
 		}
 
-		select, input[type="file"], input[type="submit"] {
+		select,
+		input[type="file"],
+		input[type="submit"] {
 			width: 100%;
-			padding: 10px;
-			margin-bottom: 15px;
-			border: 1px solid #a3e635; /* Light green border */
-			border-radius: 5px;
-			font-size: 14px;
-			transition: border-color 0.3s, box-shadow 0.3s;
+			padding: 6px;
+			margin-bottom: 10px;
+			border: 1px solid #a3e635;
+			border-radius: 3px;
+			font-size: 11px;
 		}
 
 		select {
-			background-color: #f0fff4; /* Light green background for dropdowns */
-		}
-
-		select:hover, input[type="file"]:hover {
-			border-color: #4ade80; /* Bright green border on hover */
-			box-shadow: 0 0 5px rgba(72, 187, 120, 0.5); /* Green glow */
+			background-color: #f0fff4;
 		}
 
 		input[type="file"] {
-			background-color: #dcfce7; /* Subtle green for file inputs */
+			background-color: #dcfce7;
 		}
 
 		input[type="submit"] {
-			background-color: #22c55e; /* Green button */
+			background-color: #22c55e;
 			color: white;
 			border: none;
 			cursor: pointer;
-			transition: background-color 0.3s, transform 0.3s;
+			transition: background-color 0.2s ease;
+			font-size: 12px;
 		}
 
 		input[type="submit"]:hover {
-			background-color: #16a34a; /* Darker green on hover */
-			transform: scale(1.05); /* Slightly larger on hover */
+			background-color: #16a34a;
+		}
+
+		#messages {
+			max-width: 450px;
+			margin: 0 auto 15px;
 		}
 
 		.message {
-			padding: 10px;
-			margin: 10px 0;
-			border-radius: 5px;
+			padding: 6px;
+			margin: 6px 0;
+			border-radius: 3px;
+			font-size: 11px;
 		}
 
 		.success {
-			background-color: #d1fae5; /* Light green background for success */
-			color: #065f46; /* Dark green text for success */
-			border: 1px solid #10b981; /* Green border for success */
+			background-color: #d1fae5;
+			color: #065f46;
+			border: 1px solid #10b981;
 		}
 
 		.error {
-			background-color: #fee2e2; /* Light red background for error */
-			color: #b91c1c; /* Dark red text for error */
-			border: 1px solid #f87171; /* Red border for error */
+			background-color: #fee2e2;
+			color: #b91c1c;
+			border: 1px solid #f87171;
 		}
 	</style>
 </head>
@@ -271,8 +124,10 @@
 				<option value="Stress3">Stress3</option>
 				<option value="Stress4">Stress4</option>
 			</select>
+
 			<label for="forward_rate_file">Upload File:</label>
 			<input type="file" name="forward_rate_file" id="forward_rate_file">
+
 			<input type="submit" value="Submit">
 		</form>
 	</div>
@@ -290,8 +145,10 @@
 				<option value="Stress3">Stress3</option>
 				<option value="Stress4">Stress4</option>
 			</select>
+
 			<label for="input_files">Upload File:</label>
 			<input type="file" name="input_files" id="input_files">
+
 			<input type="submit" value="Submit">
 		</form>
 	</div>

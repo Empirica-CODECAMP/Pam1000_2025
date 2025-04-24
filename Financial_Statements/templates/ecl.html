@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Finacial Statements</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      padding: 15px 20px;
+    }
+
+    .section-header {
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .section-header i {
+      margin-right: 10px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-top: 1px solid #eee;
+    }
+
+    .item:first-of-type {
+      border-top: none;
+    }
+
+    .item-title {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+    }
+
+    .item-title i {
+      margin-right: 8px;
+      color: #555;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+    }
+
+    .btn-download {
+      background-color: #333;
+    }
+
+    .btn-view {
+      background-color: #007bff;
+    }
+
+    .btn i {
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h2><i class="fas fa-folder-open"></i> Financial Statements</h2>
+
+  <div class="section">
+    <div class="section-header"><i class="fas fa-file-alt"></i> Stage Allocation Reports</div>
+    <div class="item">
+      <div class="item-title">
+        <i class="fas fa-file-excel"></i> Stage Allocation Report
+      </div>
+      <div class="buttons">
+        <a href="/media/ecl_calculations/loss_allowances/Stage_Allocation_Report.xlsx" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="/media/ecl_calculations/loss_allowances/Stage_Allocation_Report.xlsx" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><i class="fas fa-chart-bar"></i> Loss Allowances</div>
+    <div class="item">
+      <div class="item-title">
+        <i class="fas fa-file-excel"></i> Loss Allowances
+      </div>
+      <div class="buttons">
+        <a href="/media/ecl_calculations/loss_allowances/loss_allowance.xlsx" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="/media/ecl_calculations/loss_allowances/loss_allowance.xlsx" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><i class="fas fa-university"></i> Credit Risk Exposures</div>
+    <div class="item">
+      <div class="item-title">
+        <i class="fas fa-file-excel"></i> Credit Risk Exposures
+      </div>
+      <div class="buttons">
+        <a href="/media/ecl_calculations/credit_risk_exposures/Credit_risk_exposure.xlsx" download class="btn btn-download">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <a href="/media/ecl_calculations/credit_risk_exposures/Credit_risk_exposure.xlsx" target="_blank" class="btn btn-view">
+          <i class="fas fa-eye"></i> View
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

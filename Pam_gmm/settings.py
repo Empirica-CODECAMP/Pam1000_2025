@@ -30,7 +30,7 @@ SECRET_KEY = "django-insecure-oddc(tfe-m)k^zgm3wpt*9j6a*4tt#p-qw0yy2)dijm@!5*2%m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "configuration",
     "plotly",
     "homepage",
+    "Financial_Statements",
 ]
 
 MIDDLEWARE = [

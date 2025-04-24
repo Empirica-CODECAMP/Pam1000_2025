@@ -6,21 +6,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yearly Dash</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6fa;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px; /* make all body text smaller */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            font-size: 12px;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        select,
+        button,
+        input[type="checkbox"] {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 12px;
+        }
+
+        select {
+            background-color: #f0fff0;
+        }
+
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-size: 12px;
+        }
+
+        legend {
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        fieldset label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 12px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        #download-csv {
+            margin-top: 20px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+            font-size: 12px;
+        }
+
+        canvas {
+            margin-top: 40px;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Yearly Dash</h1>
     <form id="yearly-dash-form">
-        <label for="category">Category:</label>
-        <select id="category" name="category">
-            <option value="if_ins">if_ins</option>
-            <option value="if_reins">if_reins</option>
-            <option value="nb_ins">nb_ins</option>
-            <option value="nb_reins">nb_reins</option>
-        </select>
+        <div>
+            <label for="category">Category</label>
+            <select id="category" name="category">
+                <option value="if_ins">if_ins</option>
+                <option value="if_reins">if_reins</option>
+                <option value="nb_ins">nb_ins</option>
+                <option value="nb_reins">nb_reins</option>
+            </select>
+        </div>
 
         <fieldset>
-            <legend>Select Years:</legend>
+            <legend>Select Years</legend>
             <label><input type="checkbox" name="years" value="2024"> 2024</label>
             <label><input type="checkbox" name="years" value="2023"> 2023</label>
             <label><input type="checkbox" name="years" value="2022"> 2022</label>
@@ -32,7 +132,7 @@
     </form>
 
     <canvas id="myChart" width="800" height="400"></canvas>
-    <button id="download-csv" style="display: none;">Download CSV</button>
+    <button id="download-csv">Download CSV</button>
 
     <script>
         document.getElementById('yearly-dash-form').addEventListener('submit', async function (event) {
@@ -47,7 +147,6 @@
                 return;
             }
 
-            // Use FormData to handle multiple `years` values as separate key-value pairs
             const formData = new FormData();
             formData.append('category', category);
             years.forEach(year => formData.append('years', year));
@@ -61,46 +160,36 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Extract the total_sum from the response
                     const totalSum = data.total_sum;
-
-                    // Prepare dynamic labels and datasets
                     const labels = [];
-                    const metricsMap = {}; // Store data by metric type
+                    const metricsMap = {};
 
                     totalSum.forEach(item => {
                         const year = item["Sum Year"];
                         const metric = item["Metric"];
                         const sum = item["Sum"];
 
-                        // Add the year to labels if it's not already there
                         if (!labels.includes(year)) {
                             labels.push(year);
                         }
 
-                        // Initialize the dataset array for the metric if it doesn't exist
                         if (!metricsMap[metric]) {
                             metricsMap[metric] = [];
                         }
 
-                        // Assign the sum value to the appropriate metric's dataset
                         metricsMap[metric].push(sum);
                     });
 
-                    // Now, dynamically build the datasets for Chart.js
-                    const datasets = Object.keys(metricsMap).map((metric, index) => {
-                        return {
-                            label: metric,
-                            data: metricsMap[metric],
-                            backgroundColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 0.2)`, // Dynamic color
-                            borderColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`,
-                            borderWidth: 1
-                        };
-                    });
+                    const datasets = Object.keys(metricsMap).map((metric, index) => ({
+                        label: metric,
+                        data: metricsMap[metric],
+                        backgroundColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 0.2)`,
+                        borderColor: `rgba(${(index * 50) % 255}, ${(index * 100) % 255}, ${(index * 150) % 255}, 1)`,
+                        borderWidth: 1
+                    }));
 
-                    // Create the chart using Chart.js
                     const ctx = document.getElementById('myChart').getContext('2d');
-                    const myChart = new Chart(ctx, {
+                    new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: labels,
@@ -115,7 +204,6 @@
                         }
                     });
 
-                    // Enable the download button
                     const downloadBtn = document.getElementById('download-csv');
                     downloadBtn.style.display = 'block';
                     downloadBtn.onclick = async () => {
@@ -125,7 +213,7 @@
                                 headers: {
                                     'Content-Type': 'application/x-www-form-urlencoded',
                                 },
-                                body: new URLSearchParams({file_path: data.file_path}),
+                                body: new URLSearchParams({ file_path: data.file_path }),
                             });
 
                             if (downloadResponse.ok) {

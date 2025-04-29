@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,16 +8,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAM1000 Dashboard</title>
     <link rel="stylesheet" href="/static/start.css">
-
-
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e9ecef;
+            padding: 10px 20px;
+            font-size: 12px;
+            box-shadow: 0 2px 4px #ccc;
+            flex-shrink: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
         .sidebar {
             padding: 10px;
             width: 250px;
             background-color: #f9f9f9;
-            font-size: 0.7rem; 
+            font-size: 0.7rem;
+            overflow-y: auto;
         }
 
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #app-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background: white;
+        }
+
+        /* Rest of your existing styles */
         .sidebar-group {
             background-color: #ffffff;
             border: 1px solid #ddd;
@@ -23,7 +68,6 @@
             padding: 10px;
             margin-bottom: 15px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            
         }
 
         .sidebar-heading {
@@ -31,7 +75,6 @@
             font-weight: bold;
             color: #666;
             margin-bottom: 8px;
-            
         }
 
         .dashboard-link {
@@ -45,28 +88,80 @@
 
         .dashboard-link:hover {
             background-color: #e8f0fe;
-            color: #007bff;
+            color: #187454;
         }
 
-        .navbar{
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #d0e2ff;
+            color:  #187454;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+            min-width: 160px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1;
+            padding: 5px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #333;
             font-size: 12px;
         }
 
-        .logo{
-            font-size: 20px;
+        .dropdown-content a:hover {
+            background-color: #f0f0f0;
         }
     </style>
-
-
 </head>
 
 <body>
-
     <!-- Navbar -->
     <div class="navbar">
         <div class="logo" onclick="window.location.href='/home'">EMPIRICA - PAM 1000 (IFRS 17)</div>
-        <div>
+        <div class="nav-links">
             <a href="/" class="icon">🏠 View Site</a>
+            <!-- <a href="{% url 'pas12_base' %}" class="icon"> PAS-12</a> -->
+            <a href="#" class="icon" id="pas12-link">🌐 PAS-12</a>
+            <span id="pas12-error" style="color: red; display: none;">Error: PAS-12 is unavailable</span>
+
             <a href="/admin/" class="icon">⚙️ Admin</a>
             <div class="dropdown">
                 <a href="#" class="icon">👤 Profile</a>
@@ -88,7 +183,6 @@
                 <h4 class="sidebar-heading">1. Settings</h4>
                 <a href="#" class="dashboard-link" data-src="{% url 'fcf_vars_page' %}">📊 FCF Variables</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'cashflow_analysis' %}">📊 Cashflow Config</a>
-                <!-- <a href="#" class="dashboard-link" data-src="{% url 'config' %}">🛠️ Configuration</a> -->
                 <a href="#" class="dashboard-link" data-src="{% url 'orsa_config' %}">🛠️ Sensitivities</a>
             </div>
 
@@ -96,7 +190,6 @@
                 <h4 class="sidebar-heading">2. Analysis</h4>
                 <a href="#" class="dashboard-link" data-src="{% url 'edit_inputs' %}">📊 Edit</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'stress_selection' %}">📊 Cashflow Analysis</a>
-                
             </div>
 
             <div class="sidebar-group">
@@ -105,32 +198,17 @@
             </div>
 
             <div class="sidebar-group">
-                <h4 class="sidebar-heading">4. Reports</h4>
-                <a href="{% url 'ecl_landing_1' %}" class="direct-link">📆 Financial Statements</a>
+                <h4 class="sidebar-heading"> Reports</h4>
+                <a href="#" class="dashboard-link" data-src="{% url 'ecl_landing_1' %}">📆 Financial Statements</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'fetch_results' %}">📊 Actuarial Reports</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'prior_reports_page' %}">📝 Prior Reports</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'yearly_test' %}">📆 Year Report</a>
-                
             </div>
-
-            
-      
-            
-        
-        
         </div>
-        
-
-         
-
 
         <!-- Content Area -->
         <div class="content-area">
-            <!-- <h2>Welcome to PAM1000 Dashboard</h2> -->
-            <!-- Iframe for dynamic content loading -->
-            <iframe id="app-iframe" src="" width="100%" height="600px" style="border:none;"></iframe>
-            <!-- <iframe id="app-iframe" src="" width="100%" style="height: 100%; border: none;"></iframe> -->
-
+            <iframe id="app-iframe" src=""></iframe>
         </div>
     </div>
 
@@ -148,8 +226,23 @@
                 }
             });
         });
+
+        // Check if PAS-12 server is reachable
+        document.getElementById('pas12-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            fetch('http://localhost:8002/', { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = 'http://localhost:8002/';
+                    } else {
+                        document.getElementById('pas12-error').style.display = 'inline';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('pas12-error').style.display = 'inline';
+                });
+        });
     </script>
-
+    </script>
 </body>
-
 </html>

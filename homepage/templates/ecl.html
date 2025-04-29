@@ -1,411 +1,389 @@
-{% extends 'base.html' %}
-
-{% block title %}Fin Statements{% endblock %}
-
-{% block content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configurations</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      margin: 20px;
-    }
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+  }
 
-    h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
+  body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+  }
 
-    .section {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      padding: 15px 20px;
-    }
+  .content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .section-header {
-      font-size: 18px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+  }
 
-    .section-header i {
-      margin-right: 10px;
-    }
+  .sections-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+  }
 
-    .item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-top: 1px solid #eee;
-    }
+  .section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px 20px;
+    flex-shrink: 0;
+  }
 
-    .item:first-of-type {
-      border-top: none;
-    }
+  .section-header {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
 
-    .item-title {
-      display: flex;
-      align-items: center;
-      font-size: 15px;
-    }
+  .section-header i {
+    margin-right: 10px;
+  }
 
-    .item-title i {
-      margin-right: 8px;
-      color: #555;
-    }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-top: 1px solid #eee;
+  }
 
-    .buttons {
-      display: flex;
-      gap: 10px;
-    }
+  .item:first-of-type {
+    border-top: none;
+  }
 
-    .btn {
-      padding: 5px 10px;
-      border: none;
-      border-radius: 4px;
-      font-size: 13px;
-      cursor: pointer;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      text-decoration: none;
-    }
+  .item-title {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
 
-    .btn-download {
-      background-color: #333;
-    }
+  .item-title i {
+    margin-right: 8px;
+    color: #555;
+  }
 
-    .btn-view {
-      background-color: #007bff;
-    }
+  .buttons {
+    display: flex;
+    gap: 10px;
+  }
 
-    .btn i {
-      font-size: 13px;
-    }
-  </style>
-</head>
+  .btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+  }
 
-<body>
+  .btn-download {
+    background-color: #333;
+  }
 
-<h2><i class="fas fa-folder-open"></i> Financial Statements</h2>
+  .btn-view {
+    background-color: #09a528;
+  }
 
-<div class="section">
-  <div class="section-header"><i class="fas fa-file-alt"></i> Actuarial ORSA Reports</div>
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Report 1.1
+  .btn i {
+    font-size: 13px;
+  }
+</style>
+
+<div class="content-wrapper">
+  <h2><i class="fas fa-folder-open"></i> Financial Statements</h2>
+  
+  <div class="sections-container">
+    <div class="section">
+      <div class="section-header"><i class="fas fa-file-alt"></i> Actuarial ORSA Reports</div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Report 1.1
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/Report 1.1.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/Report%201.1.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Report 1.2 - CSM release
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/Report 1.2 - CSM release.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/Report%201.2%20-%20CSM%20release.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Report 1.3 NB Recognition-Ins
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/Report 1.3 NB Recognition-Ins.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/Report%201.3%20NB%20Recognition-Ins.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Report 1.3 NB Recognition-Reins
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/Report 1.3 NB Recognition-Reins.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/Report%201.3%20NB%20Recognition-Reins.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/Report 1.1.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'Report 1.1.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Report 1.2 - CSM release
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/Report 1.2 - CSM release.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'Report 1.2 - CSM release.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
+    <div class="section">
+      <div class="section-header"><i class="fas fa-chart-bar"></i> ORSA Disclosures</div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> IFRS17_Disc1
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/IFRS17_Disc1.xlsm" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/IFRS17_Disc1.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
 
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Financials - SOI
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/Financials - SOI.xlsm" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/Financials%20-%20SOI.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Report 1.3 NB Recognition-Ins
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/Report 1.3 NB Recognition-Ins.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'Report 1.3 NB Recognition-Ins.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Financials - SOFP
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/Financials - SOFP.xlsm" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/Financials%20-%20SOFP.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
 
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> IFRS17_Disc2
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/IFRS17_Disc2.xlsm" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/IFRS17_Disc2.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Report 1.3 NB Recognition-Reins
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/Report 1.3 NB Recognition-Reins.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'Report 1.3 NB Recognition-Reins.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
-</div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Subledger
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/Subledger.xlsm" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/Subledger.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
 
-<div class="section">
-  <div class="section-header"><i class="fas fa-chart-bar"></i> ORSA Disclosures</div>
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> IFRS17_Disc1
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> TrialBalance
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/TrialBalance.xlsm" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/TrialBalance.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/IFRS17_Disc1.xlsm" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-        {% with 'IFRS17_Disc1.xlsx'|urlencode as encoded_filename %}
-        <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-          <i class="fas fa-eye"></i> View
-        </a>
-      {% endwith %}
-    </div>
-  </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Financials - SOI
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/Financials - SOI.xlsm" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-        {% with 'Financials - SOI.xlsx'|urlencode as encoded_filename %}
-        <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-          <i class="fas fa-eye"></i> View
-        </a>
-      {% endwith %}
-    </div>
-  </div>
+    <div class="section">
+      <div class="section-header"><i class="fas fa-chart-bar"></i> Reports</div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Report 1.1
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/RReport 1.1.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/RReport%201.1.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Financials - SOFP
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/Financials - SOFP.xlsm" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-        {% with 'Financials - SOFP.xlsx'|urlencode as encoded_filename %}
-        <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-          <i class="fas fa-eye"></i> View
-        </a>
-      {% endwith %}
-    </div>
-  </div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Report 1.2 - CSM release
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/RReport 1.2 - CSM release.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/RReport%201.2%20-%20CSM%20release.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> IFRS17_Disc2
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/IFRS17_Disc2.xlsm" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-        {% with 'IFRS17_Disc2.xlsx'|urlencode as encoded_filename %}
-        <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-          <i class="fas fa-eye"></i> View
-        </a>
-      {% endwith %}
-    </div>
-  </div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Report 1.3 NB Recognition-Ins
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/RReport 1.3 NB Recognition-Ins.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/RReport%201.3%20NB%20Recognition-Ins.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Subledger
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> Report 1.3 NB Recognition-Reins
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/RReport 1.3 NB Recognition-Reins.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/RReport%201.3%20NB%20Recognition-Reins.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/Subledger.xlsm" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-        {% with 'Subledger.xlsx'|urlencode as encoded_filename %}
-        <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-          <i class="fas fa-eye"></i> View
-        </a>
-      {% endwith %}
-    </div>
-  </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> TrialBalance
+    <div class="section">
+      <div class="section-header"><i class="fas fa-chart-bar"></i> PAA_I_Disclosure</div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> PAA_I_Disclosure
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/PAA_I_Disclosures.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/PAA_I_Disclosures.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/TrialBalance.xlsm" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-        {% with 'TrialBalance.xlsx'|urlencode as encoded_filename %}
-        <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-          <i class="fas fa-eye"></i> View
-        </a>
-      {% endwith %}
-    </div>
-  </div>
-</div>
 
-<div class="section">
-  <div class="section-header"><i class="fas fa-chart-bar"></i> Reports</div>
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Report 1.1
+    <div class="section">
+      <div class="section-header"><i class="fas fa-chart-bar"></i> PAA_R_Disclosure</div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> PAA_R_Disclosure
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/PAA_R_Disclosures.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/PAA_R_Disclosures.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/RReport 1.1.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'RReport 1.1.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Report 1.2 - CSM release
+    <div class="section">
+      <div class="section-header"><i class="fas fa-chart-bar"></i> TB and Subledger Reports</div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> TB and Subledger Reports
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/TB_and_Subledger_Report.xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/TB_and_Subledger_Report.xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/RReport 1.2 - CSM release.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'RReport 1.2 - CSM release.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
 
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Report 1.3 NB Recognition-Ins
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/RReport 1.3 NB Recognition-Ins.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'RReport 1.3 NB Recognition-Ins.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
-
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> Report 1.3 NB Recognition-Reins
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/RReport 1.3 NB Recognition-Reins.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'RReport 1.3 NB Recognition-Reins.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
-</div>
-
-
-<div class="section">
-  <div class="section-header"><i class="fas fa-chart-bar"></i> PAA_I_Disclosure</div>
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> PAA_I_Disclosure
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/PAA_I_Disclosures.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'PAA_I_Disclosures.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-header"><i class="fas fa-chart-bar"></i> PAA_R_Disclosure</div>
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> PAA_R_Disclosure
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/PAA_R_Disclosures.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'PAA_R_Disclosures.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
-</div>
-
-
-
-<div class="section">
-  <div class="section-header"><i class="fas fa-chart-bar"></i> TB and Subledger Reports</div>
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> TB and Subledger Reports
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/TB_and_Subledger_Report.xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'TB_and_Subledger_Report.xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="section-header"><i class="fas fa-university"></i> PAA Financials - SOFP</div>
-  <div class="item">
-    <div class="item-title">
-      <i class="fas fa-file-excel"></i> PAA Financials - SOFP
-    </div>
-    <div class="buttons">
-      <a href="/media/Financial_Statements/PAA Financials - SOFP (1).xlsx" download class="btn btn-download">
-        <i class="fas fa-download"></i> Download
-      </a>
-      {% with 'PAA Financials - SOFP (1).xlsx'|urlencode as encoded_filename %}
-  <a href="{% url 'view_excel' encoded_filename %}" class="btn btn-view">
-    <i class="fas fa-eye"></i> View
-  </a>
-{% endwith %}
+    <div class="section">
+      <div class="section-header"><i class="fas fa-university"></i> PAA Financials - SOFP</div>
+      <div class="item">
+        <div class="item-title">
+          <i class="fas fa-file-excel"></i> PAA Financials - SOFP
+        </div>
+        <div class="buttons">
+          <a href="/media/Financial_Statements/PAA Financials - SOFP (1).xlsx" download class="btn btn-download">
+            <i class="fas fa-download"></i> Download
+          </a>
+          <a href="/view_excel/PAA%20Financials%20-%20SOFP%20(1).xlsx" class="btn btn-view">
+            <i class="fas fa-eye"></i> View
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-</body>
-{% endblock %}

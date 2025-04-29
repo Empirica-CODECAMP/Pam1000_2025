@@ -2533,7 +2533,7 @@ def test(request, stress):
 #                     }
 #                 )
 #
-#             except Exception as e:
+#             except Exception as e:b
 #                 print(f"Error generating graph: {e}")
 #                 return JsonResponse(
 #                     {"error": f"Error generating graph: {str(e)}"}, status=500
@@ -2584,7 +2584,7 @@ from django.conf import settings
 
 
 
-
+@xframe_options_exempt
 def ecl_landing_1(request):
     context = {
         "ecl_reports": ECLReport.objects.all(),

@@ -34,4 +34,6 @@ urlpatterns = [
     path("configuration/", include("configuration.urls")),
     path("Financial_Statements/", include("Financial_Statements.urls")),
     path("homepage/", include("homepage.urls")),
+    path("pas12/", include("pas12mirror.urls")),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

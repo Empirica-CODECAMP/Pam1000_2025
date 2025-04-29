@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "plotly",
     "homepage",
     "Financial_Statements",
+    "pas12mirror",
 ]
 
 MIDDLEWARE = [
@@ -110,6 +111,11 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    },
+
+     "pas12": {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR,'..','Mayfair-main','db.sqlite3'),
     }
 }
 

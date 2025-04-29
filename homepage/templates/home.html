@@ -2,57 +2,308 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Empirica Analysis - Actuarial Reports Simplified</title>
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empirica Analysis - Actuarial Reports Simplified</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #187454;
+            --primary-light: #e8f5e9;
+            --secondary: #2c3e50;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar div {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .navbar a:hover {
+            color: var(--primary);
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 5rem 1rem;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            border-radius: 10px;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta button {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(24, 116, 84, 0.3);
+        }
+
+        .cta button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(24, 116, 84, 0.4);
+            background-color: #136747;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature p {
+            color: var(--gray);
+        }
+
+        .feature i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        footer {
+            background-color: var(--secondary);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            header p {
+                font-size: 1.2rem;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .navbar div {
+                margin-top: 1rem;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-	<!-- Navbar -->
-	<div class="navbar">
-		<div class="logo" onclick="window.location.href='/'">PAM 1000</div>
-		<div>
-			<a href="#services">Services</a>
-			<a href="dashboard">Contact</a>
-			<a href="login">Login</a>
-		</div>
-	</div>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo" onclick="window.location.href='/'">PAM 1000</div>
+        <div>
+            <a href="#services">Services</a>
+            <a href="dashboard">Contact</a>
+            <a href="login">Login</a>
+        </div>
+    </div>
 
-	<header>
-		<h1>Empirica Analysis</h1>
-		<p>Empowering Actuarial Precision</p>
-	</header>
-	<div class="container">
-		<section class="hero">
-			<h1>Effortlessly Create Accurate Actuarial Reports</h1>
-			<p>Leverage the power of advanced measurement methods to streamline your actuarial processes.</p>
-			<div class="cta">
-				<a href="/dashboard">
-					<button>Explore Features</button>
-				</a>
-			</div>
-		</section>
-		<section class="features">
-			<div class="feature">
-				<h3>Precision Analytics</h3>
-				<p>Get precise results using robust general measurement techniques tailored for actuaries.</p>
-			</div>
-			<div class="feature">
-				<h3>Seamless Integration</h3>
-				<p>Integrate with your existing tools and frameworks for a smoother workflow.</p>
-			</div>
-			<div class="feature">
-				<h3>Customizable Reports</h3>
-				<p>Create reports that align with your unique business needs and requirements.</p>
-			</div>
-		</section>
-	</div>
-	<footer>
-		<p>&copy; 2024 Empirica Analysis. All rights reserved.</p>
-	</footer>
-
+    <header>
+        <h1>Empirica Analysis</h1>
+        <p>Empowering Actuarial Precision</p>
+    </header>
+    
+    <div class="container">
+        <section class="hero">
+            <h1>Effortlessly Create Accurate Actuarial Reports</h1>
+            <p>Leverage the power of advanced measurement methods to streamline your actuarial processes.</p>
+            <div class="cta">
+                <a href="/dashboard">
+                    <button>Explore Features <i class="fas fa-arrow-right"></i></button>
+                </a>
+            </div>
+        </section>
+        
+        <section class="features">
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>Precision Analytics</h3>
+                <p>Get precise results using robust general measurement techniques tailored for actuaries.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-plug"></i>
+                <h3>Seamless Integration</h3>
+                <p>Integrate with your existing tools and frameworks for a smoother workflow.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-file-alt"></i>
+                <h3>Customizable Reports</h3>
+                <p>Create reports that align with your unique business needs and requirements.</p>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Empirica Analysis. All rights reserved.</p>
+    </footer>
 </body>
-
 </html>

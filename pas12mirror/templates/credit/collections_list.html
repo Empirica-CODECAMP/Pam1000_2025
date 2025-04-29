@@ -1,0 +1,182 @@
+{% extends "../pas12_base.html" %}
+
+{% block title %}Collections List | PAS12 Database{% endblock %}
+
+{% block header %}Payment Collections{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="search-box">
+            <input type="text" class="form-control" placeholder="Search collections..." id="collectionSearch">
+        </div>
+        <div class="status-filter">
+            <select class="form-select" id="statusFilter">
+                <option value="">All Statuses</option>
+                <option value="paid">Paid</option>
+                <option value="pending">Pending</option>
+                <option value="failed">Failed</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover" id="collectionTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>Policy Number</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for collection in collections %}
+                <tr>
+                    <td>{{ collection.policy.policy_number }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if collection.status == 'paid' %}bg-success
+                            {% elif collection.status == 'pending' %}bg-warning text-dark
+                            {% elif collection.status == 'failed' %}bg-danger
+                            {% else %}bg-secondary{% endif %}">
+                            {{ collection.status|title }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-db" data-bs-toggle="modal" 
+                                data-bs-target="#detailsModal{{ collection.id }}">
+                            <i class="bi bi-info-circle"></i> Details
+                        </button>
+                    </td>
+                </tr>
+                
+                <!-- Details Modal -->
+                <div class="modal fade" id="detailsModal{{ collection.id }}" tabindex="-1" 
+                     aria-labelledby="detailsModalLabel{{ collection.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detailsModalLabel{{ collection.id }}">
+                                    Collection Details
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <strong>Policy Number:</strong>
+                                        <p>{{ collection.policy.policy_number }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Status:</strong>
+                                        <p>
+                                            <span class="badge 
+                                                {% if collection.status == 'paid' %}bg-success
+                                                {% elif collection.status == 'pending' %}bg-warning text-dark
+                                                {% elif collection.status == 'failed' %}bg-danger
+                                                {% else %}bg-secondary{% endif %}">
+                                                {{ collection.status|title }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <strong>Payment Date:</strong>
+                                        <p>{{ collection.payment_date|date:"M d, Y" }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Premium Amount:</strong>
+                                        <p>R{{ collection.premium|floatformat:2 }}</p>
+                                    </div>
+                                </div>
+                                {% if collection.description %}
+                                <div class="mb-3">
+                                    <strong>Description:</strong>
+                                    <p>{{ collection.description }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No collection records found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_paginated %}
+    <nav aria-label="Collection pagination">
+        <ul class="pagination justify-content-center mt-4">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo; Previous</span>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Next &raquo;</span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+<script>
+    // Collection search functionality
+    document.getElementById('collectionSearch').addEventListener('keyup', function() {
+        const input = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#collectionTable tbody tr');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(input) ? '' : 'none';
+        });
+    });
+
+    // Status filter functionality
+    document.getElementById('statusFilter').addEventListener('change', function() {
+        const filterValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#collectionTable tbody tr');
+        
+        rows.forEach(row => {
+            if (!filterValue) {
+                row.style.display = '';
+                return;
+            }
+            
+            const status = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            row.style.display = status.includes(filterValue) ? '' : 'none';
+        });
+    });
+</script>
+{% endblock %}

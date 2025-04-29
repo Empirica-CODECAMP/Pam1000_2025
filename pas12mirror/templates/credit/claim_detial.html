@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Claim Details</h1>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Claim #{{ claim.pk }}</h5>
+        <p class="card-text">
+            <strong>Date:</strong> {{ claim.claim_date }}<br>
+            <strong>Amount:</strong> {{ claim.claim_amount }}<br>
+            <strong>Description:</strong> {{ claim.description }}<br>
+            <strong>Status:</strong> {{ claim.status }}<br>
+            <strong>Policy:</strong> {{ claim.policy.policy_number }}<br>
+        </p>
+        <a href="{% url 'credit_claim_list' %}" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "../pas12_base.html" %}
+
+{% block title %}Client List | PAS12 Database{% endblock %}
+
+{% block header %}Client Records{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <div class="d-flex justify-content-between mb-3">
+        <div class="search-box">
+            <input type="text" class="form-control" placeholder="Search clients..." id="clientSearch">
+        </div>
+        <div>
+            <button class="btn btn-db" data-bs-toggle="modal" data-bs-target="#exportModal">
+                <i class="bi bi-download"></i> Export
+            </button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover" id="clientTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>Client ID</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>ID Number</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Smoker Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in clients %}
+                <tr>
+                    <td>{{ client.client_id }}</td>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.surname }}</td>
+                    <td><a href="mailto:{{ client.email }}">{{ client.email }}</a></td>
+                    <td>{{ client.id_number }}</td>
+                    <td>{{ client.dob|date:"M. d, Y" }}</td>
+                    <td>{{ client.gender }}</td>
+                    <td>
+                        <span class="badge bg-{% if client.smoker_status == 'Yes' %}danger{% else %}success{% endif %}">
+                            {{ client.smoker_status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'credit_client_detail' client.pk %}" class="btn btn-sm btn-db">
+                            <i class="bi bi-eye"></i> View
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center">No client records found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_paginated %}
+    <nav aria-label="Client pagination">
+        <ul class="pagination justify-content-center mt-4">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo; Previous</span>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Next &raquo;</span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+
+
+<script>
+    // Client search functionality
+    document.getElementById('clientSearch').addEventListener('keyup', function() {
+        const input = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#clientTable tbody tr');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(input) ? '' : 'none';
+        });
+    });
+
+    // Export all checkbox
+    document.getElementById('exportAll').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.export-field');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+</script>
+{% endblock %}

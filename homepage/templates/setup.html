@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IFRS17 Input Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    
+    h2 {
+      color: #187454;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+    
+    form {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    th {
+      background-color: #187454;
+      color: white;
+      font-weight: 500;
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    
+    td {
+      padding: 10px 15px;
+      border: 1px solid #e0e0e0;
+      font-size: 0.85rem;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    .input-cell {
+      background-color: #fffde7;
+    }
+    
+    select, input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      background-color: white;
+    }
+    
+    select:focus, input:focus {
+      outline: none;
+      border-color: #187454;
+      box-shadow: 0 0 0 2px rgba(24, 116, 84, 0.2);
+    }
+    
+    button[type="submit"] {
+      background-color: #187454;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #136040;
+    }
+    
+    button[type="submit"]:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(24, 116, 84, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+<h2>IFRS17 Input Form</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <table>
+    <tr><th colspan="2">General Setup</th></tr>
+    <tr>
+      <td>Reporting date - previous</td>
+      <td class="input-cell">{{ form.reporting_date_previous }}</td>
+    </tr>
+    <tr>
+      <td>Reporting date - current</td>
+      <td class="input-cell">{{ form.reporting_date_current }}</td>
+    </tr>
+    <tr>
+      <td>Reporting currency</td>
+      <td class="input-cell">{{ form.reporting_currency }}</td>
+    </tr>
+
+    <tr><th colspan="2">Calculation Scope</th></tr>
+    <tr>
+      <td>Insurance contracts?</td>
+      <td class="input-cell">{{ form.insurance_contracts }}</td>
+    </tr>
+    <tr>
+      <td>Reinsurance contracts?</td>
+      <td class="input-cell">{{ form.reinsurance_contracts }}</td>
+    </tr>
+    <tr>
+      <td>Insurance new business?</td>
+      <td class="input-cell">{{ form.insurance_new_business }}</td>
+    </tr>
+    <tr>
+      <td>Reinsurance new business?</td>
+      <td class="input-cell">{{ form.reinsurance_new_business }}</td>
+    </tr>
+    <tr>
+      <td>Will foreign currency exchange rates be required to convert the results to the reporting currency?</td>
+      <td class="input-cell">{{ form.foreign_currency_needed }}</td>
+    </tr>
+    <tr>
+      <td>Are there any cash flows that vary based on the returns on any financial underlying items? i.e. Linked cashflows</td>
+      <td class="input-cell">{{ form.linked_cashflows }}</td>
+    </tr>
+    <tr>
+      <td>Are there cash flows that are dependent on financial assumptions? e.g. inflation, asset returns, exchange rates</td>
+      <td class="input-cell">{{ form.dependent_cashflows }}</td>
+    </tr>
+    <tr>
+      <td>Were there newly recognised loss components for onerous insurance groups recognised in the reporting period, that were covered by a GRC?</td>
+      <td class="input-cell">{{ form.loss_components }}</td>
+    </tr>
+    <tr>
+      <td>Are there GICs that are being measured using an external model (PAA/VFA), and where a GRC loss recovery component is being measured in this model?</td>
+      <td class="input-cell">{{ form.gic_external_model }}</td>
+    </tr>
+
+    <tr><th colspan="2">Options (also applies to equivalent RI items)</th></tr>
+    <tr>
+      <td>Where to recognise the effect of changes in interest rates and other financial assumptions?</td>
+      <td class="input-cell">{{ form.interest_rate_effects }}</td>
+    </tr>
+    <tr>
+      <td>Disaggregate change in the risk adjustment between insurance service result and insurance finance result?</td>
+      <td class="input-cell">{{ form.disaggregate_change }}</td>
+    </tr>
+    <tr>
+      <td>Use simplification for the setting of the RA (% of ABS(PVCF) relating to claims and other expenses)?</td>
+      <td class="input-cell">{{ form.simplify_ra }}</td>
+    </tr>
+    <tr>
+      <td>Discount coverage units used for the release of the CSM?</td>
+      <td class="input-cell">{{ form.discount_csm }}</td>
+    </tr>
+    <tr>
+      <td>Apply discounting when calculating the amortisation of acquisition cash flows?</td>
+      <td class="input-cell">{{ form.discount_acquisition_flows }}</td>
+    </tr>
+    <tr>
+      <td>Discount amortisation pattern?</td>
+      <td class="input-cell">{{ form.discount_amortisation_pattern }}</td>
+    </tr>
+    <tr>
+      <td>Granular yield curve inputs required for 'Remaining Coverage/Incurred Claims' and Group Code?</td>
+      <td class="input-cell">{{ form.granular_yield }}</td>
+    </tr>
+    
+    
+  </table>
+
+  <br>
+  <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

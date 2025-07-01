@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IFRS17 Input Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h2 {
+      color: #187454;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+
+    form {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    th {
+      background-color: #187454;
+      color: white;
+      font-weight: 500;
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    td {
+      padding: 10px 15px;
+      border: 1px solid #e0e0e0;
+      font-size: 0.85rem;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .input-cell {
+      background-color: #fffde7;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      background-color: white;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #187454;
+      box-shadow: 0 0 0 2px rgba(24, 116, 84, 0.2);
+    }
+
+    button[type="submit"] {
+      background-color: #187454;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #136040;
+    }
+
+    button[type="submit"]:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(24, 116, 84, 0.3);
+    }
+  </style>
+</head>
+<body>
+<h2>Input File</h2>
+
+
+<div id="message" style="color: green; font-weight: bold;"></div>
+<form id="uploadForm" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <label for="id_category">Category</label>
+    {{ form.category }}
+
+  <label>Input Type:</label>
+  {{ form.input_type }}
+  
+  <label>Date:</label>
+  {{ form.date }}
+
+  <label>Upload File:</label>
+  {{ form.file }}
+
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+const inputOptions = {
+    core: [
+        { value: 'yield_curve', label: '📈 Yield Curve' },
+        { value: 'exchange_rate', label: '💱 Exchange Rate' }
+    ],
+    insurance: [
+        { value: 'i_groups', label: '🏛️ I_Groups' },
+        { value: 'i_equity', label: '💹 I_Equity' },
+        { value: 'i_new_gen', label: '🆕 I_NEW_GEN' },
+        { value: 'i_new_cfs', label: '💰 I_NEW_CFs' },
+        { value: 'i_if_gen', label: '📊 I_IF_GEN' },
+        { value: 'i_if_fcfs', label: '📉 I_IF_FCFs' },
+        { value: 'i_if_patterns', label: '🔄 I_IF_Patterns' }
+    ],
+    reinsurance: [
+        { value: 'r_groups', label: '🏛️ R_Groups' },
+        { value: 'r_equity', label: '💹 R_Equity' },
+        { value: 'r_i_mapping', label: '🗺️ R_I_Mapping' },
+        { value: 'r_new_gen', label: '🆕 R_NEW_GEN' },
+        { value: 'r_new_cfs', label: '💰 R_NEW_CFs' },
+        { value: 'r_new_lr', label: '📊 R_NEW_LR' },
+        { value: 'r_i_new_cfs', label: '💱 R_I_NEW_CFs' },
+        { value: 'r_if_gen', label: '📊 R_IF_GEN' },
+        { value: 'r_if_fcfs', label: '📉 R_IF_FCFs' },
+        { value: 'r_if_patterns', label: '🔄 R_IF_Patterns' },
+        { value: 'r_i_if_fcfs', label: '💱 R_I_IF_FCFs' },
+        { value: 'r_if_gen_lr', label: '📈 R_IF_GEN_LR' }
+    ]
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+    const categorySelect = document.getElementById('id_category');
+    const inputTypeSelect = document.getElementById('id_input_type');
+
+    categorySelect.addEventListener('change', function () {
+        const selectedCategory = categorySelect.value;
+        const types = inputOptions[selectedCategory] || [];
+
+        inputTypeSelect.innerHTML = '<option value="">Select a type</option>';
+
+        types.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type.value;
+            option.textContent = type.label;
+            inputTypeSelect.appendChild(option);
+        });
+    });
+});
+
+
+document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // prevent default form submission
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    fetch("{% url 'setup-input' %}", {
+        method: "POST",
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'  // optional, helps detect AJAX
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const messageDiv = document.getElementById('message');
+        if (data.status === 'success') {
+            messageDiv.style.color = 'green';
+            messageDiv.textContent = data.message;
+            form.reset();
+        } else {
+            messageDiv.style.color = 'red';
+            messageDiv.textContent = data.message || 'Failed to upload.';
+        }
+    })
+    .catch(error => {
+        console.error("Upload error:", error);
+        const messageDiv = document.getElementById('message');
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = 'An error occurred.';
+    });
+});
+</script>
+
+
+</body>
+</html>

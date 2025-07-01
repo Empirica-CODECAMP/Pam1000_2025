@@ -39,6 +39,7 @@ import os
 from django.shortcuts import render
 from django.conf import settings
 from django.http import Http404
+from .forms import SetupForm, InputUploadForm
 
 
 # Create your views here.
@@ -190,6 +191,11 @@ def login_page(request):
 
 def start_page(request):
     return render(request, "start.html")
+
+
+@xframe_options_exempt
+def dashboard_home(request):
+    return render(request, 'dashboard_home.html')
 
 
 @xframe_options_exempt
@@ -509,7 +515,7 @@ def Calculations(request):
                     settings.BASE_DIR,
                     "Calculations",
                     "Rscript",
-                    "IFRS17model_Portfolio.R",
+                    "gmm_items_6.R",
                 )
 
                 # Run the model with the selected parameters
@@ -603,7 +609,7 @@ def orsa_config(request):
                     settings.BASE_DIR,
                     "Calculations",
                     "Rscript",
-                    "IFRS17model_Portfolio.R",
+                    "gmm_items_6.R",
                 )
 
                 result = subprocess.run(
@@ -2625,3 +2631,42 @@ def view_excel(request, filename):
         html_table = f"<p>Error reading Excel file: {e}</p>"
 
     return render(request, 'view_excel.html', {'table': html_table, 'filename': filename})
+
+from .forms import SetupInputForm
+
+@xframe_options_exempt
+def setup(request):
+    if request.method == "POST":
+        form = SetupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("summary-success")  # Create this view or redirect somewhere meaningful
+    else:
+        form = SetupForm()
+    
+    return render(request, "setup.html", {"form": form})
+    
+# @xframe_options_exempt
+# def setup_input(request):
+#     if request.method == 'POST':
+#         form = SetupInputForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('input-success')
+#     else:
+#         form = SetupInputForm()
+#     return render(request, 'setup_input.html', {'form': form})
+
+# views.py
+@xframe_options_exempt
+def setup_input(request):
+    if request.method == 'POST':
+        form = InputUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success', 'message': 'File uploaded successfully'})  # or wherever
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Invalid form data', 'errors': form.errors}, status=400)
+
+    form = InputUploadForm()
+    return render(request, 'setup_input.html', {'form': form})

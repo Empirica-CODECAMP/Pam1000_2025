@@ -35,4 +35,9 @@ urlpatterns = [
     path('ecl_landing', views.ecl_landing, name='ecl_landing'),
     path('fin-statements/', views.ecl_landing_1, name='ecl_landing_1'),
     path('homepage/view_excel/<path:filename>/', views.view_excel, name='view_excel'),
+    path('setup/', views.setup, name='setup'),
+    path('setup-input/', views.setup_input, name='setup-input'),
+    # urls.py
+    path('dashboard-home/', views.dashboard_home, name='dashboard_home'),
+    
 ]

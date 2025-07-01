@@ -1,0 +1,17 @@
+===== General Exception =====
+Error Type: FileNotFoundError
+Error Message: [WinError 2] The system cannot find the file specified
+=== Traceback ===
+Traceback (most recent call last):
+  File "C:\Users\NESK\Desktop\Empirica\Pam1000_2025\homepage\views.py", line 516, in Calculations
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "C:\Users\NESK\AppData\Local\Programs\Python\Python312\Lib\subprocess.py", line 550, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\NESK\AppData\Local\Programs\Python\Python312\Lib\subprocess.py", line 1028, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Users\NESK\AppData\Local\Programs\Python\Python312\Lib\subprocess.py", line 1540, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified

@@ -14,6 +14,7 @@ class CreditClaim(models.Model):
     description = models.TextField()
     status = models.CharField(max_length=8)
     policy = models.ForeignKey('CreditPolicy', models.DO_NOTHING)
+    gic = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -44,6 +45,7 @@ class CreditCollections(models.Model):
     status = models.CharField(max_length=10)
     description = models.TextField(blank=True, null=True)
     policy = models.ForeignKey('CreditPolicy', models.DO_NOTHING)
+    gic = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -301,6 +303,20 @@ class CustomersupportSpousepricingmodel(models.Model):
         db_table = 'CustomerSupport_spousepricingmodel'
 
 
+class FuneralAllocations(models.Model):
+    allocation_date = models.DateField()
+    due_date = models.DateField()
+    premium_due = models.DecimalField(max_digits=10, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    allocated = models.DecimalField(max_digits=10, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
+    status = models.CharField(max_length=20)
+    client = models.OneToOneField('FuneralClients', models.DO_NOTHING)
+    month_covered = models.CharField(max_length=7)
+
+    class Meta:
+        managed = False
+        db_table = 'Funeral_allocations'
+
+
 class FuneralChildpricingmodel(models.Model):
     age_range = models.CharField(max_length=100)
     gender = models.CharField(max_length=10)
@@ -322,6 +338,7 @@ class FuneralClaim(models.Model):
     death_certificate = models.CharField(max_length=100)
     policy_document = models.CharField(max_length=100)
     client = models.ForeignKey('FuneralClients', models.DO_NOTHING)
+    gic = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -469,6 +486,7 @@ class FuneralCollections(models.Model):
     payment_method = models.CharField(max_length=20, blank=True, null=True)
     payment_reference_number = models.PositiveBigIntegerField(unique=True)
     client = models.ForeignKey(FuneralClients, models.DO_NOTHING)
+    gic = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -608,6 +626,7 @@ class MotorClaim(models.Model):
     claim_amount = models.DecimalField(max_digits=10, decimal_places=5)  # max_digits and decimal_places have been guessed, as this database handles decimal fields as float
     description = models.TextField()
     client = models.ForeignKey('MotorClient', models.DO_NOTHING)
+    gic = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -646,6 +665,7 @@ class MotorCollections(models.Model):
     payment_method = models.CharField(max_length=20)
     payment_reference_number = models.PositiveBigIntegerField(unique=True)
     client = models.ForeignKey(MotorClient, models.DO_NOTHING)
+    gic = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False

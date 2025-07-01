@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAS12 Summary Table</title>
+    <style>
+        :root {
+            --primary-color: #187454;
+            --secondary-color: #145a3c;
+            --accent-color: #e74c3c;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        h2 {
+            color: var(--dark-gray);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 24px;
+        }
+        
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        th, td {
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            font-size: 0.85rem;
+            word-wrap: break-word;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        th.group-header {
+            background-color: var(--secondary-color);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        tr:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #e3f2fd !important;
+        }
+        
+        /* Column width adjustments */
+        th:nth-child(1), td:nth-child(1) { width: 10%; } /* Reporting Date */
+        th:nth-child(2), td:nth-child(2) { width: 8%; }  /* GIC Code */
+        th:nth-child(3), td:nth-child(3) { width: 8%; }  /* Past Service */
+        th:nth-child(4), td:nth-child(4) { width: 8%; }  /* Current Service */
+        th:nth-child(5), td:nth-child(5) { width: 8%; }  /* Future Service */
+        th:nth-child(6), td:nth-child(6) { width: 10%; } /* Past/Current Service */
+        th:nth-child(7), td:nth-child(7) { width: 8%; }  /* Future Service */
+        th:nth-child(8), td:nth-child(8) { width: 10%; } /* Investment Component */
+        th:nth-child(9), td:nth-child(9) { width: 10%; } /* Prior Periods */
+        th:nth-child(10), td:nth-child(10) { width: 10%; } /* Current Period */
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            th, td {
+                padding: 8px 5px;
+                font-size: 0.8rem;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+            
+            /* Further reduce column widths */
+            th:nth-child(1), td:nth-child(1) { width: 12%; }
+            th:nth-child(2), td:nth-child(2) { width: 7%; }
+        }
+        
+        @media (max-width: 768px) {
+            /* Stack headers for better mobile view */
+            thead tr:first-child th:not(:first-child):not(:nth-child(2)) {
+                display: none;
+            }
+            
+            /* Adjust column widths for mobile */
+            th, td {
+                padding: 6px 4px;
+                font-size: 0.75rem;
+            }
+            
+            th:nth-child(1), td:nth-child(1) { width: 15%; }
+            th:nth-child(2), td:nth-child(2) { width: 10%; }
+        }
+        
+        /* Compact number formatting */
+        .compact-number {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>PAS12 Insurance Summary</h2>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Date</th>
+                    <th rowspan="2">GIC</th>
+                    <th colspan="2" class="group-header">Premiums</th>
+                    <th rowspan="2">Future Service</th>
+                    <th colspan="2" class="group-header">Acquisition</th>
+                    <th rowspan="2">Investment component payments</th>
+                    <th colspan="2" class="group-header">Claims</th>
+                </tr>
+                <tr>
+                    <th>Past</th>
+                    <th>Current</th>
+                    <th>P/C</th>
+                    <th>Future</th>
+                    <th>Prior</th>
+                    <th>Current</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr class="{% if row.is_total %}total-row{% endif %}">
+                    <td>{{ row.reporting_date|date:"M Y" }}</td>
+                    <td>{{ row.gic_code }}</td>
+                    <td class="compact-number">{{ row.premiums_past|floatformat:1 }}</td>
+                    <td class="compact-number">{{ row.premiums_current|floatformat:1 }}</td>
+                    <td class="compact-number">{{ row.premium_receipts_future|floatformat:1 }}</td>
+                    <td class="compact-number">{{ row.acquisition_expense_past_current|floatformat:1 }}</td>
+                    <td class="compact-number">{{ row.acquisition_expense_future|floatformat:1 }}</td>
+                    <td class="compact-number">{{ row.investment_component_payments|floatformat:1 }}</td>
+                    <td class="compact-number">{{ row.claims_prior_periods|floatformat:1 }}</td>
+                    <td class="compact-number">{{ row.claims_current_period|floatformat:1 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+</html>

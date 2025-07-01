@@ -1,0 +1,38 @@
+===== Subprocess Error =====
+Command: ['Rscript', 'C:\\Users\\NESK\\Desktop\\Empirica\\Pam1000_2025\\Calculations\\Rscript\\gmm_items_6.R', '2025', '2025', '2024']
+Return Code: 1
+=== STDERR ===
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: 'lubridate'
+
+The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union
+
+
+Attaching package: 'openxlsx'
+
+The following objects are masked from 'package:openxlsx2':
+
+    col2int, int2col, temp_xlsx
+
+Installing package into 'C:/Users/NESK/AppData/Local/R/win-library/4.5'
+(as 'lib' is unspecified)
+Error in contrib.url(repos, "source") : 
+  trying to use CRAN without setting a mirror
+Calls: install.packages -> contrib.url
+Execution halted
+
+=== STDOUT ===
+

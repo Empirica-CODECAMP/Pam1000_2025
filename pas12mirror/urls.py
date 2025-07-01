@@ -3,8 +3,8 @@ from . import views
 
 urlpatterns = [
     
-        path('home/', views.home, name='pas12_home'),
-
+    path('home/', views.home, name='pas12_home'),
+    path('pas12-summary/', views.pas12_summary_view, name='pas12_summary'),
 
     path('base',views.base, name='pas12_base'),
     # Credit URLs

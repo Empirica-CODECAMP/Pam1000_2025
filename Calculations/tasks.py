@@ -22,11 +22,10 @@ def execute_r_script(model_run_id):
 
         # Define the path to your R script
         r_script_path = os.path.join(
-            os.getcwd(), "scripts", "ifrs17_model.R"
-        )  # Adjust the path as needed
-
+            settings.BASE_DIR, "Calculations", "Rscript", "gmm_items_6.R"
+        )
         # Prepare command to execute R script
-        # Pass parameters as a JSON string argument
+        # Pass parameters as a JSON string argument (or adjust as needed for your new script)
         command = ["Rscript", r_script_path, json.dumps(model_run.input_parameters)]
 
         # Execute the R script

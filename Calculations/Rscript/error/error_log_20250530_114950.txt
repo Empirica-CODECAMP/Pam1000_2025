@@ -1,0 +1,7 @@
+===== Subprocess Error =====
+Command: ['Rscript', 'C:\\Users\\NESK\\Desktop\\Empirica\\Pam1000_2025\\Calculations\\Rscript\\IFRS17model_Portfolio.R', '2025', '2025', '2024']
+Return Code: 3221225477
+=== STDERR ===
+
+=== STDOUT ===
+

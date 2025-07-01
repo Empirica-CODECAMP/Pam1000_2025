@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "Cash_Flows",
     "rest_framework",
-    "import_export",
+    
     "Calculations",
     #'Organise',
     "Queries",

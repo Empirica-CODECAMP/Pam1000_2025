@@ -81,7 +81,7 @@ def run_model(request):
 
             # Join it with the relative path to your R script folder and file
             rscript_path = os.path.join(
-                rscript_path, "Rscript", "IFRS17model_Portfolio.R"
+                rscript_path, "Rscript", "GMM ITEMS 6 (Pako).r"
             )
             try:
                 # Run the R script using subprocess
@@ -306,7 +306,7 @@ def run_model2(model_instance=None, request=None):
 
     # Define path to the R script
     rscript_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "Rscript", "IFRS17model_Portfolio.R"
+        os.path.dirname(os.path.abspath(__file__)), "Rscript", "GMM ITEMS 6 (Pako).r"
     )
 
     try:

@@ -1,0 +1,70 @@
+===== Subprocess Error =====
+Command: ['Rscript', 'C:\\Users\\NESK\\Desktop\\Empirica\\Pam1000_2025\\Calculations\\Rscript\\gmm_items_6.R', '2025', '2025', '2024']
+Return Code: 1
+=== STDERR ===
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: 'lubridate'
+
+The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union
+
+
+Attaching package: 'openxlsx'
+
+The following objects are masked from 'package:openxlsx2':
+
+    col2int, int2col, temp_xlsx
+
+Installing package into 'C:/Users/NESK/AppData/Local/R/win-library/4.5'
+(as 'lib' is unspecified)
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/4.5/readxl_1.4.5.zip'
+Content type 'application/zip' length 765600 bytes (747 KB)
+==================================================
+downloaded 747 KB
+
+Warning: cannot remove prior installation of package 'readxl'
+Warning: restored 'readxl'
+Warning message:
+In file.copy(savedcopy, lib, recursive = TRUE) :
+  problem copying C:\Users\NESK\AppData\Local\R\win-library\4.5\00LOCK\readxl\libs\x64\readxl.dll to C:\Users\NESK\AppData\Local\R\win-library\4.5\readxl\libs\x64\readxl.dll: Permission denied
+
+Attaching package: 'readxl'
+
+The following object is masked from 'package:openxlsx2':
+
+    read_xlsx
+
+Rows: 1800 Columns: 17
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): Reporting Date, GIC Code
+dbl (15): Premium CFs (Unlinked)(Current Service), Premium CFs (Unlinked)(Fu...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Error in file(filename, "r", encoding = encoding) : 
+  cannot open the connection
+Calls: source -> file
+In addition: Warning message:
+In file(filename, "r", encoding = encoding) :
+  cannot open file 'C:/Users/NESK/Desktop/load_pas12_summary.R': No such file or directory
+Execution halted
+
+=== STDOUT ===
+package 'readxl' successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\NESK\AppData\Local\Temp\RtmpmI0pgQ\downloaded_packages
+

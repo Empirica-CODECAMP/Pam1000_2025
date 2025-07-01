@@ -1,0 +1,136 @@
+===== Subprocess Error =====
+Command: ['Rscript', 'C:\\Users\\NESK\\Desktop\\Empirica\\Pam1000_2025\\Calculations\\Rscript\\gmm_items_6.R', '2025', '2025', '2024']
+Return Code: 1
+=== STDERR ===
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attaching package: 'lubridate'
+
+The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union
+
+
+Attaching package: 'openxlsx'
+
+The following objects are masked from 'package:openxlsx2':
+
+    col2int, int2col, temp_xlsx
+
+
+Attaching package: 'readxl'
+
+The following object is masked from 'package:openxlsx2':
+
+    read_xlsx
+
+Rows: 7 Columns: 11
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): gic_code, insurance_type
+dbl  (8): premiums_past, premiums_current, premium_receipts_future, acquisit...
+date (1): reporting_date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 7 Columns: 11
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): gic_code, insurance_type
+dbl  (8): premiums_past, premiums_current, premium_receipts_future, acquisit...
+date (1): reporting_date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Error in `distinct()`:
+! Must use existing variables.
+✖ `GIC Code` not found in `.data`.
+✖ `Opening LRC - Loss - PVFCF` not found in `.data`.
+✖ `Opening LRC - Loss - RA` not found in `.data`.
+Backtrace:
+    ▆
+ 1. ├─I_IF_GEN %>% ...
+ 2. ├─dplyr::distinct(...)
+ 3. └─dplyr:::distinct.data.frame(., `GIC Code`, `Opening LRC - Loss - PVFCF`, `Opening LRC - Loss - RA`)
+ 4.   └─dplyr::distinct_prepare(...)
+ 5.     └─rlang::abort(bullets, call = error_call)
+Execution halted
+
+=== STDOUT ===
+[1] "Desktop path: C:\\Users\\NESK/Desktop"
+[1] "Looking for CSV at: C:\\Users\\NESK/Desktop/pas12_summary.csv"
+[1] "Reading data from CSV..."
+[1] "PAS12 Summary Data (first few rows):"
+# A tibble: 6 × 11
+  reporting_date gic_code premiums_past premiums_current premium_receipts_future
+  <date>         <chr>            <dbl>            <dbl>                   <dbl>
+1 2025-05-30     BLL_1722           0               87.5                       0
+2 2025-05-30     -                  0                0                         0
+3 2025-05-30     -                  0                0                         0
+4 2025-05-30     BLL_1711           0               74.6                       0
+5 2025-05-30     BLL_1711          74.6              0                         0
+6 2025-05-30     BLL_1711           0                0                         0
+# ℹ 6 more variables: acquisition_expense_past_current <dbl>,
+#   acquisition_expense_future <dbl>, investment_component_payments <dbl>,
+#   claims_prior_periods <dbl>, claims_current_period <dbl>,
+#   insurance_type <chr>
+[1] "Summary Statistics:"
+# A tibble: 7 × 11
+  reporting_date gic_code premiums_past premiums_current premium_receipts_future
+  <date>         <chr>            <dbl>            <dbl>                   <dbl>
+1 2025-05-30     BLL_1722           0               87.5                       0
+2 2025-05-30     -                  0                0                         0
+3 2025-05-30     -                  0                0                         0
+4 2025-05-30     BLL_1711           0               74.6                       0
+5 2025-05-30     BLL_1711          74.6              0                         0
+6 2025-05-30     BLL_1711           0                0                         0
+7 2025-05-30     -                  0                0                         0
+# ℹ 6 more variables: acquisition_expense_past_current <dbl>,
+#   acquisition_expense_future <dbl>, investment_component_payments <dbl>,
+#   claims_prior_periods <dbl>, claims_current_period <dbl>,
+#   insurance_type <chr>
+[1] "Summary statistics saved to: C:\\Users\\NESK/Desktop/pas12_summary_stats.csv"
+[1] "Desktop path: C:\\Users\\NESK/Desktop"
+[1] "Looking for CSV at: C:\\Users\\NESK/Desktop/pas12_summary.csv"
+[1] "Reading data from CSV..."
+[1] "PAS12 Summary Data (first few rows):"
+# A tibble: 6 × 11
+  reporting_date gic_code premiums_past premiums_current premium_receipts_future
+  <date>         <chr>            <dbl>            <dbl>                   <dbl>
+1 2025-05-30     BLL_1722           0               87.5                       0
+2 2025-05-30     -                  0                0                         0
+3 2025-05-30     -                  0                0                         0
+4 2025-05-30     BLL_1711           0               74.6                       0
+5 2025-05-30     BLL_1711          74.6              0                         0
+6 2025-05-30     BLL_1711           0                0                         0
+# ℹ 6 more variables: acquisition_expense_past_current <dbl>,
+#   acquisition_expense_future <dbl>, investment_component_payments <dbl>,
+#   claims_prior_periods <dbl>, claims_current_period <dbl>,
+#   insurance_type <chr>
+[1] "Summary Statistics:"
+# A tibble: 7 × 11
+  reporting_date gic_code premiums_past premiums_current premium_receipts_future
+  <date>         <chr>            <dbl>            <dbl>                   <dbl>
+1 2025-05-30     BLL_1722           0               87.5                       0
+2 2025-05-30     -                  0                0                         0
+3 2025-05-30     -                  0                0                         0
+4 2025-05-30     BLL_1711           0               74.6                       0
+5 2025-05-30     BLL_1711          74.6              0                         0
+6 2025-05-30     BLL_1711           0                0                         0
+7 2025-05-30     -                  0                0                         0
+# ℹ 6 more variables: acquisition_expense_past_current <dbl>,
+#   acquisition_expense_future <dbl>, investment_component_payments <dbl>,
+#   claims_prior_periods <dbl>, claims_current_period <dbl>,
+#   insurance_type <chr>
+[1] "Summary statistics saved to: C:\\Users\\NESK/Desktop/pas12_summary_stats.csv"
+

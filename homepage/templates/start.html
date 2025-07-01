@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,17 +17,19 @@
         body {
             display: flex;
             flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #e9ecef;
+            background-color: #187454;
             padding: 10px 20px;
             font-size: 12px;
             box-shadow: 0 2px 4px #ccc;
             flex-shrink: 0;
+            color: white;
         }
 
         .main-container {
@@ -58,6 +58,111 @@
             width: 100%;
             border: none;
             background: white;
+        }
+
+        /* Welcome content styles */
+        .welcome-content {
+            flex: 1;
+            padding: 30px;
+            background-color: #fff;
+            overflow-y: auto;
+        }
+
+        .welcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            color: #187454;
+            font-weight: 600;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #187454;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-button {
+            padding: 12px 20px;
+            background: #187454;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .action-button:hover {
+            background: #0e5a3d;
+        }
+
+        .recent-activity {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .activity-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .activity-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            margin-right: 10px;
+            color: #187454;
+            font-size: 18px;
         }
 
         /* Rest of your existing styles */
@@ -113,8 +218,7 @@
         }
 
         .nav-links a:hover {
-            background-color: #d0e2ff;
-            color:  #187454;
+            background-color: rgba(255,255,255,0.2);
         }
 
         .dropdown {
@@ -158,10 +262,8 @@
         <div class="logo" onclick="window.location.href='/home'">EMPIRICA - PAM 1000 (IFRS 17)</div>
         <div class="nav-links">
             <a href="/" class="icon">🏠 View Site</a>
-            <!-- <a href="{% url 'pas12_base' %}" class="icon"> PAS-12</a> -->
             <a href="#" class="icon" id="pas12-link">🌐 PAS-12</a>
             <span id="pas12-error" style="color: red; display: none;">Error: PAS-12 is unavailable</span>
-
             <a href="/admin/" class="icon">⚙️ Admin</a>
             <div class="dropdown">
                 <a href="#" class="icon">👤 Profile</a>
@@ -178,27 +280,38 @@
     <div class="main-container">
         <div class="sidebar">
             <input type="text" class="search-bar" placeholder="Search...">
-           
             <div class="sidebar-group">
-                <h4 class="sidebar-heading">1. Settings</h4>
+                <h4 class="sidebar-heading">0. Setup</h4>
+                <a href="#" class="dashboard-link" data-src="{% url 'dashboard_home' %}">🏠 Home</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'setup' %}">🛠️ Setup</a>
+            </div>
+
+            <div class="sidebar-group">
+                <h4 class="sidebar-heading">1. Inputs</h4>
+                <a href="#" class="dashboard-link" data-src="{% url 'setup-input' %}">🛠️ inputs</a>
+            </div>
+
+            <div class="sidebar-group">
+                <h4 class="sidebar-heading">2. Settings</h4>
                 <a href="#" class="dashboard-link" data-src="{% url 'fcf_vars_page' %}">📊 FCF Variables</a>
+                <a href="#" class="dashboard-link" data-src="{% url 'pas12_summary' %}">📊 pas12_summary</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'cashflow_analysis' %}">📊 Cashflow Config</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'orsa_config' %}">🛠️ Sensitivities</a>
             </div>
 
             <div class="sidebar-group">
-                <h4 class="sidebar-heading">2. Analysis</h4>
+                <h4 class="sidebar-heading">3. Analysis</h4>
                 <a href="#" class="dashboard-link" data-src="{% url 'edit_inputs' %}">📊 Edit</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'stress_selection' %}">📊 Cashflow Analysis</a>
             </div>
 
             <div class="sidebar-group">
-                <h4 class="sidebar-heading">3. Calculations</h4>
+                <h4 class="sidebar-heading">4. Calculations</h4>
                 <a href="#" class="dashboard-link" data-src="{% url 'calculations' %}">🧮 Calculations</a>
             </div>
 
             <div class="sidebar-group">
-                <h4 class="sidebar-heading"> Reports</h4>
+                <h4 class="sidebar-heading">5. Reports</h4>
                 <a href="#" class="dashboard-link" data-src="{% url 'ecl_landing_1' %}">📆 Financial Statements</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'fetch_results' %}">📊 Actuarial Reports</a>
                 <a href="#" class="dashboard-link" data-src="{% url 'prior_reports_page' %}">📝 Prior Reports</a>
@@ -208,17 +321,95 @@
 
         <!-- Content Area -->
         <div class="content-area">
-            <iframe id="app-iframe" src=""></iframe>
+            <!-- Welcome content that shows by default -->
+            <div class="welcome-content" id="welcome-content">
+                <div class="welcome-header">
+                    <div>
+                        <h1 class="welcome-title">Welcome to PAM1000 Dashboard</h1>
+                        <p class="welcome-subtitle">IFRS 17 Insurance Contracts Analysis Tool</p>
+                    </div>
+                    <div>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-title">Active Projects</div>
+                        <div class="stat-value">12</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Pending Tasks</div>
+                        <div class="stat-value">5</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Completed Reports</div>
+                        <div class="stat-value">24</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Upcoming Deadlines</div>
+                        <div class="stat-value">3</div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-button" onclick="document.querySelector('[data-src=\'{% url 'setup-input' %}\']').click()">
+                        Start New Analysis
+                    </button>
+                    <button class="action-button" onclick="document.querySelector('[data-src=\'{% url 'fetch_results' %}\']').click()">
+                        View Reports
+                    </button>
+                    <button class="action-button" onclick="document.querySelector('[data-src=\'{% url 'calculations' %}\']').click()">
+                        Run Calculations
+                    </button>
+                </div>
+
+                <div class="recent-activity">
+                    <h3 class="activity-title">Recent Activity</h3>
+                    <div class="activity-item">
+                        <span class="activity-icon">📊</span>
+                        <span>John updated the cashflow assumptions (2 hours ago)</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">📝</span>
+                        <span>New quarterly report generated (Yesterday)</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">🔧</span>
+                        <span>System maintenance completed (June 15)</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-icon">📈</span>
+                        <span>Sensitivity analysis run for Q2 (June 12)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Iframe that loads when sidebar links are clicked -->
+            <iframe id="app-iframe" src="" style="display: none;"></iframe>
         </div>
     </div>
 
     <!-- JavaScript for handling dynamic content loading -->
     <script>
+        // Set current date
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+
         document.querySelectorAll('.dashboard-link').forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 const src = e.target.getAttribute('data-src');
                 const iframe = document.getElementById('app-iframe');
+                const welcomeContent = document.getElementById('welcome-content');
+
+                // Hide welcome content and show iframe
+                welcomeContent.style.display = 'none';
+                iframe.style.display = 'block';
 
                 // Set the src of the iframe to load the corresponding content
                 if (src) {
@@ -242,7 +433,14 @@
                     document.getElementById('pas12-error').style.display = 'inline';
                 });
         });
-    </script>
+
+        // Optional: Add functionality to show welcome content when logo is clicked
+        document.querySelector('.logo').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('welcome-content').style.display = 'block';
+            document.getElementById('app-iframe').style.display = 'none';
+            document.getElementById('app-iframe').src = '';
+        });
     </script>
 </body>
 </html>
